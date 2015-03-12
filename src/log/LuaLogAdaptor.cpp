@@ -2,7 +2,6 @@
 
 #include "log/LuaLogAdaptor.h"
 
-#ifdef LOG_WRAPPER_ENABLE_LUA_SUPPORT
 
 static int lua_log_adaptor_fn_lua_log(lua_State *L) {
     int top = lua_gettop(L);
@@ -16,8 +15,8 @@ static int lua_log_adaptor_fn_lua_log(lua_State *L) {
     if (WDTLOGCHECK(level)) {
         for (int i = 2; i <= top; ++i) {
             const char* content = lua_tostring(L, i);
-            if (nullptr != content) {
-                LogWrapper::Instance()->log(level, "Lua", nullptr, 0, nullptr, content);
+            if (NULL != content) {
+                LogWrapper::Instance()->log(level, "Lua", NULL, 0, NULL, content);
             }
         }
     }
@@ -63,6 +62,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

@@ -33,7 +33,7 @@ void LogWrapper::addLogHandle(log_handler_t h, level_t::type level_min, level_t:
 }
 
 void LogWrapper::update() {
-    log_time_cache_sec_ = time(nullptr);
+    log_time_cache_sec_ = time(NULL);
     log_time_cache_sec_p_ = localtime(&log_time_cache_sec_);
 }
 
@@ -47,7 +47,7 @@ void LogWrapper::log(level_t::type level_id, const char* level, const char* file
         // format => "[Log    DEBUG][2015-01-12 10:09:08.]
         int start_index = 0;
 
-        if (enable_print_log_type_ && nullptr != level) {
+        if (enable_print_log_type_ && NULL != level) {
             start_index = sprintf(log_buffer, "[Log %8s]", level);
             if (start_index < 0) {
                 start_index = 14;
@@ -61,13 +61,13 @@ void LogWrapper::log(level_t::type level_id, const char* level, const char* file
 
         // 打印位置选项
         if (enable_print_file_location_ && enable_print_function_name_ && 
-            nullptr != file_path && nullptr != func_name) {
+            NULL != file_path && NULL != func_name) {
             int res = sprintf(&log_buffer[start_index], "[%s:%u(%s)]: ", file_path, line_number, func_name);
             start_index += res >= 0 ? res : 0;
-        } else if (enable_print_file_location_ && nullptr != file_path) {
+        } else if (enable_print_file_location_ && NULL != file_path) {
             int res = sprintf(&log_buffer[start_index], "[%s:%u]: ", file_path, line_number);
             start_index += res >= 0 ? res : 0;
-        } else if (enable_print_function_name_ && nullptr != func_name) {
+        } else if (enable_print_function_name_ && NULL != func_name) {
             int res = sprintf(&log_buffer[start_index], "[(%s)]: ", func_name);
             start_index += res >= 0 ? res : 0;
         }

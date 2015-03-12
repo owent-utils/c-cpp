@@ -64,11 +64,11 @@ void LogHandlerFilesystem::setFilePattern(const std::string& file_name_pattern, 
     strncpy(paths, file_name_pattern.c_str(), file_name_pattern.size() + 1);
 
     char* token = strtok(paths, "\\/");
-    while (nullptr != token) {
+    while (NULL != token) {
         if (0 != strlen(token)) {
             dirs_pattern_.push_back(token);
         }
-        token = strtok(nullptr, "\\/");
+        token = strtok(NULL, "\\/");
     }
 
     free(paths);
@@ -80,7 +80,7 @@ void LogHandlerFilesystem::operator()(LogWrapper::level_t::type level_id, const 
     }
 
     std::shared_ptr<FILE*> f = open_log_file();
-    if (f && nullptr == *f) {
+    if (f && NULL == *f) {
         return;
     }
 
@@ -101,12 +101,12 @@ void LogHandlerFilesystem::init() {
     for (open_file_index_ = 0; open_file_index_ < max_file_number_; ++open_file_index_) {
         std::string real_path = get_log_file();
 
-        if (nullptr != (*opened_file_)) {
+        if (NULL != (*opened_file_)) {
             fclose(*opened_file_);
         }
 
         (*opened_file_) = fopen(real_path.c_str(), "a+");
-        if (nullptr != (*opened_file_)) {
+        if (NULL != (*opened_file_)) {
             fseek((*opened_file_), 0, SEEK_END);
             size_t file_size = ftell((*opened_file_));
             if (file_size < max_file_size_) {
@@ -123,11 +123,11 @@ std::shared_ptr<FILE*> LogHandlerFilesystem::open_log_file() {
     std::string real_path;
 
     size_t file_size = max_file_size_;
-    if (opened_file_ && nullptr != (*opened_file_)) {
+    if (opened_file_ && NULL != (*opened_file_)) {
         file_size = static_cast<size_t>(ftell(*opened_file_));
     }
 
-    if (opened_file_ && nullptr != (*opened_file_) && file_size < max_file_size_) {
+    if (opened_file_ && NULL != (*opened_file_) && file_size < max_file_size_) {
         time_t now = LogWrapper::Instance()->getLogTime();
         time_t cp = now >= last_check_point_ ? now - last_check_point_ : last_check_point_ - now;
 
@@ -148,7 +148,7 @@ std::shared_ptr<FILE*> LogHandlerFilesystem::open_log_file() {
         open_file_index_ = (open_file_index_ + 1) % max_file_number_;
 
         typedef FILE* ft;
-        opened_file_ = std::shared_ptr<ft>(new ft(nullptr), delete_file);
+        opened_file_ = std::shared_ptr<ft>(new ft(NULL), delete_file);
 
         real_path.clear(); // 文件名失效
     }
@@ -159,7 +159,7 @@ std::shared_ptr<FILE*> LogHandlerFilesystem::open_log_file() {
     FILE* clear_fd = fopen(real_path.c_str(), "w");
     fclose(clear_fd);
     *opened_file_ = fopen(real_path.c_str(), "a");
-    if (nullptr == *opened_file_) {
+    if (NULL == *opened_file_) {
         std::cerr << "[LOG INIT.ERR] open log file " << real_path << " failed." << std::endl;
         return opened_file_;
     }
@@ -212,9 +212,9 @@ const tm* LogHandlerFilesystem::get_tm() {
 
 void LogHandlerFilesystem::delete_file(FILE** f) {
     if (f) {
-        if (nullptr != *f) {
+        if (NULL != *f) {
             fclose(*f);
-            *f = nullptr;
+            *f = NULL;
         }
         delete f;
     }
