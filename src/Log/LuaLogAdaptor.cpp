@@ -1,6 +1,6 @@
-﻿#include "LogWrapper.h"
+﻿#include "Log/LogWrapper.h"
 
-#include "LuaLogAdaptor.h"
+#include "Log/LuaLogAdaptor.h"
 
 
 static int lua_log_adaptor_fn_lua_log(lua_State *L) {

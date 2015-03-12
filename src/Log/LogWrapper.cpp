@@ -1,7 +1,7 @@
 ﻿#include <cstdio>
 #include <cstring>
 #include <stdarg.h>
-#include "LogWrapper.h"
+#include "Log/LogWrapper.h"
 
 LogWrapper::LogWrapper() : 
     log_level_(level_t::LOG_LW_DEBUG) {

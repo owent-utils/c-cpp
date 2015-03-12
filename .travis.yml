@@ -5,7 +5,7 @@ compiler:
   - cmake
 
 before_script:
-  - sudo apt-get install -qq cmake
+  - sudo apt-get install -qq cmake lua5.1 liblua51-dev
   - mkdir -p build && cd build && cmake ..
 
 after_success:
