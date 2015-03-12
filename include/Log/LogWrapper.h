@@ -4,9 +4,9 @@
 #include <stdint.h>
 #include <string>
 #include <inttypes.h>
+#include <functional>
 #include <ctime>
 #include <list>
-#include "std/functional.h"
 
 #include "DesignPattern/Singleton.h"
 
@@ -17,30 +17,30 @@
 class LogWrapper : public Singleton<LogWrapper>
 {
 public:
-    enum struct EnLogType
-    {
-        DEFAULT = 0,   // 服务框架
-        DB,            // 数据库服务
-        MAX
+    struct log_t {
+        enum type {
+            DEFAULT = 0,   // 服务框架
+            DB,            // 数据库服务
+            MAX
+        };
     };
-    typedef EnLogType log_t;
 
-    enum struct EnLogLevel
-    {
-        LOG_LW_DISABLED = 0,     // 关闭日志
-        LOG_LW_FATAL,            // 强制输出
-        LOG_LW_ERROR,            // 错误
-        LOG_LW_WARNING,
-        LOG_LW_INFO,
-        LOG_LW_NOTICE,
-        LOG_LW_DEBUG,
+    struct level_t {
+        enum type {
+            LOG_LW_DISABLED = 0,     // 关闭日志
+            LOG_LW_FATAL,            // 强制输出
+            LOG_LW_ERROR,            // 错误
+            LOG_LW_WARNING,
+            LOG_LW_INFO,
+            LOG_LW_NOTICE,
+            LOG_LW_DEBUG,
+        };
     };
-    typedef EnLogLevel level_t;
 
-    typedef std::function<void(level_t level_id, const char* level, const char* content)> log_handler_t;
+    typedef std::function<void(level_t::type level_id, const char* level, const char* content)> log_handler_t;
     typedef struct {
-        level_t level_min;
-        level_t level_max;
+        level_t::type level_min;
+        level_t::type level_max;
         log_handler_t handle;
     } log_router_t;
 
@@ -50,27 +50,27 @@ protected:
 
 public:
     // 初始化
-    int32_t init(level_t level = level_t::LOG_LW_DEBUG);
+    int32_t init(level_t::type level = level_t::LOG_LW_DEBUG);
 
     void update();
 
     inline time_t getLogTime() const { return log_time_cache_sec_; }
     inline const tm* getLogTm() const { return log_time_cache_sec_p_; }
 
-    void log(level_t level_id, const char* level, const char* file_path, uint32_t line_number, const char* func_name, const char* fnt, ...);
+    void log(level_t::type level_id, const char* level, const char* file_path, uint32_t line_number, const char* func_name, const char* fnt, ...);
 
     // 一般日志级别检查
-    inline bool check(level_t level) {
+    inline bool check(level_t::type level) {
         return log_level_ >= level;
     }
 
     inline const std::list<log_router_t>& getLogHandles() const { return log_handlers_; }
 
-    void addLogHandle(log_handler_t h, level_t level_min = level_t::LOG_LW_FATAL, level_t level_max = level_t::LOG_LW_DEBUG);
+    void addLogHandle(log_handler_t h, level_t::type level_min = level_t::LOG_LW_FATAL, level_t::type level_max = level_t::LOG_LW_DEBUG);
 
-    inline void setLevel(level_t l) { log_level_ = l; }
+    inline void setLevel(level_t::type l) { log_level_ = l; }
 
-    inline level_t getLevel() const { return log_level_; }
+    inline level_t::type getLevel() const { return log_level_; }
 
     inline void setAutoUpdate(bool u) { auto_update_time_ = u; }
 
@@ -111,7 +111,7 @@ public:
     // TODO 白名单及用户指定日志输出以后有需要再说
 
 private:
-    level_t log_level_;
+    level_t::type log_level_;
     bool auto_update_time_;
     time_t log_time_cache_sec_;
     tm* log_time_cache_sec_p_;

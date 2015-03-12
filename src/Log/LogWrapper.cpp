@@ -1,7 +1,7 @@
 ﻿#include <cstdio>
 #include <cstring>
 #include <stdarg.h>
-#include "Log/LogWrapper.h"
+#include "log/LogWrapper.h"
 
 LogWrapper::LogWrapper() : 
     log_level_(level_t::LOG_LW_DEBUG) {
@@ -16,13 +16,13 @@ LogWrapper::LogWrapper() :
 
 LogWrapper::~LogWrapper() {}
 
-int32_t LogWrapper::init(level_t level) {
+int32_t LogWrapper::init(level_t::type level) {
     log_level_ = level;
 
     return 0;
 }
 
-void LogWrapper::addLogHandle(log_handler_t h, level_t level_min, level_t level_max) {
+void LogWrapper::addLogHandle(log_handler_t h, level_t::type level_min, level_t::type level_max) {
     if (h) {
         log_router_t router;
         router.handle = h;
@@ -37,7 +37,7 @@ void LogWrapper::update() {
     log_time_cache_sec_p_ = localtime(&log_time_cache_sec_);
 }
 
-void LogWrapper::log(level_t level_id, const char* level, const char* file_path, uint32_t line_number, const char* func_name, const char* fnt, ...) {
+void LogWrapper::log(level_t::type level_id, const char* level, const char* file_path, uint32_t line_number, const char* func_name, const char* fnt, ...) {
     if (auto_update_time_ && !enable_print_time_.empty()) {
         update();
     }

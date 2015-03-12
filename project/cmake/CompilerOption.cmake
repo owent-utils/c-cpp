@@ -12,8 +12,6 @@ if(NOT CMAKE_BUILD_TYPE)
 	set(CMAKE_BUILD_TYPE "Debug")
 	#set(CMAKE_BUILD_TYPE "RelWithDebInfo")
 endif()
-message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
-
 
 # 设置公共编译选项 
 set(ALL_FLAGS_IN_ONE_COMMON "")
@@ -22,16 +20,19 @@ set(CXX_FLAGS_IN_ONE_COMMON "")
 
 # 编译器选项 (仅做了GCC、VC和Clang兼容)
 if( "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-	# 目前还没有 -fPIC, 以后有了再加上
-        add_definitions(-Wall -Werror -rdynamic)
+        add_definitions(-Wall -Werror -rdynamic -D_POSIX_MT_ -D_FILE_OFFSET_BITS=64)
 
+	# gcc 4.9 编译输出颜色支持
+        if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "4.9.0" OR CMAKE_CXX_COMPILER_VERSION  VERSION_EQUAL "4.9.0" )
+                add_definitions(-fdiagnostics-color=auto)
+        endif()
         # 检测GCC版本大于等于4.8时，默认-Wno-unused-local-typedefs (普片用于type_traits，故而关闭该警告)
         if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "4.8.0" OR CMAKE_CXX_COMPILER_VERSION  VERSION_EQUAL "4.8.0" )
                 add_definitions(-Wno-unused-local-typedefs)
                 message(STATUS "GCC Version ${CMAKE_CXX_COMPILER_VERSION} Found, -Wno-unused-local-typedefs added.")
         endif()
         if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "4.7.0" OR CMAKE_CXX_COMPILER_VERSION  VERSION_EQUAL "4.7.0" )
-                set(CXX_FLAGS_IN_ONE_COMMON "${C_FLAGS_IN_ONE_COMMON} -std=gnu++11")
+                set(CXX_FLAGS_IN_ONE_COMMON "${C_FLAGS_IN_ONE_COMMON} -std=gnu++11 -Wno-literal-suffix")
                 set(C_FLAGS_IN_ONE_COMMON "${C_FLAGS_IN_ONE_COMMON} -std=gnu11")
                 message(STATUS "GCC Version ${CMAKE_CXX_COMPILER_VERSION} , using -std=gnu11/gnu++11.")
         elseif( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "4.4.0" OR CMAKE_CXX_COMPILER_VERSION  VERSION_EQUAL "4.4.0" )
@@ -40,7 +41,7 @@ if( "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
         endif()
 
 elseif( "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-        add_definitions(-Wall -Werror)
+        add_definitions(-Wall -Werror -D_POSIX_MT_ -D_FILE_OFFSET_BITS=64)
         set(CXX_FLAGS_IN_ONE_COMMON "${C_FLAGS_IN_ONE_COMMON} -std=c++11")
         message(STATUS "CLang Version ${CMAKE_CXX_COMPILER_VERSION} , using -std=c++11.")
 endif()
@@ -70,6 +71,7 @@ set(CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS_RELWITHDEBINFO} ${ALL_FLAGS_IN
 set(CMAKE_C_FLAGS_MINSIZEREL "${CMAKE_C_FLAGS_MINSIZEREL} ${ALL_FLAGS_IN_ONE_MINSIZEREL} ${C_FLAGS_IN_ONE_COMMON}")
 
 # 库文件的附加参数 -fPIC, 多线程附加参数 -pthread -D_POSIX_MT_
+
 # 功能函数
 macro(add_compiler_define)
 	foreach(def ${ARGV})
@@ -80,3 +82,4 @@ macro(add_compiler_define)
         endif()
 	endforeach()
 endmacro(add_compiler_define)
+

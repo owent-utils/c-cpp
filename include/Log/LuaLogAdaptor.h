@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#ifdef LOG_WRAPPER_ENABLE_LUA_SUPPORT
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -12,4 +14,6 @@ int LuaLogAdaptor_openLib(lua_State *L);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

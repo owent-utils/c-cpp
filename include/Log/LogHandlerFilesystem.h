@@ -8,7 +8,6 @@
 #include <memory>
 #include <inttypes.h>
 #include <ctime>
-#include "std/smart_ptr.h"
 
 #include "LogWrapper.h"
 
@@ -22,7 +21,7 @@ public:
 public:
     void setFilePattern(const std::string& file_name_pattern, std::string suffix = ".%d.log");
 
-    void operator()(LogWrapper::level_t level_id, const char* level, const char* content);
+    void operator()(LogWrapper::level_t::type level_id, const char* level, const char* content);
 
     inline const time_t& getCheckInterval() const {
         return check_interval_;

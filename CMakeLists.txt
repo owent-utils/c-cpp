@@ -14,6 +14,12 @@ if (${ENABLE_MIXEDINT_MAGIC_MASK} GREATER 0)
     add_compiler_define("ENABLE_MIXEDINT_MAGIC_MASK=${ENABLE_MIXEDINT_MAGIC_MASK}")
 endif()
 
+# 查找Lua
+find_package(Lua51)
+if (LUA51_FOUND)
+    add_compiler_define("LOG_WRAPPER_ENABLE_LUA_SUPPORT=1")
+endif()
+
 # 设置输出目录 
 set(PROJECT_ALL_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
 set(PROJECT_ALL_SOURCE_DIR "${PROJECT_SOURCE_DIR}/src")
@@ -36,7 +42,7 @@ install(TARGETS owent_utils
 	
 install(DIRECTORY "${PROJECT_ALL_INCLUDE_DIR}" DESTINATION .
 	FILES_MATCHING REGEX ".+\\.h(pp)?$"
-	)
+)
 
 add_subdirectory("${PROJECT_SOURCE_DIR}/sample")
 add_subdirectory("${PROJECT_SOURCE_DIR}/test")

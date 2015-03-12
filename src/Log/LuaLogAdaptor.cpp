@@ -1,7 +1,8 @@
-﻿#include "Log/LogWrapper.h"
+﻿#include "log/LogWrapper.h"
 
-#include "Log/LuaLogAdaptor.h"
+#include "log/LuaLogAdaptor.h"
 
+#ifdef LOG_WRAPPER_ENABLE_LUA_SUPPORT
 
 static int lua_log_adaptor_fn_lua_log(lua_State *L) {
     int top = lua_gettop(L);
@@ -10,7 +11,7 @@ static int lua_log_adaptor_fn_lua_log(lua_State *L) {
         return 0;
     }
 
-    LogWrapper::level_t level = static_cast<LogWrapper::level_t>(luaL_checkinteger(L, 1));
+    LogWrapper::level_t::type level = static_cast<LogWrapper::level_t::type>(luaL_checkinteger(L, 1));
 
     if (WDTLOGCHECK(level)) {
         for (int i = 2; i <= top; ++i) {
@@ -62,4 +63,6 @@ extern "C" {
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

@@ -5,7 +5,6 @@ compiler:
   - cmake
 
 before_script:
-  - sudo apt-cache search lua
   - sudo apt-get install -qq cmake
   - mkdir -p build && cd build && cmake ..
 

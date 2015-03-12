@@ -2,7 +2,10 @@
 #include <cstdio>
 #include <stdint.h>
 #include <iostream>
-#include "CompatSocket.h"
+#include <memory>
+#include <cstring>
+#include <cstdlib>
+#include "Socket/CompatSocket.h"
 
 #if defined(_MSC_VER) && defined(WIN32)
     #pragma comment(lib, "wsock32")
