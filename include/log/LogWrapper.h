@@ -4,9 +4,9 @@
 #include <stdint.h>
 #include <string>
 #include <inttypes.h>
-#include <functional>
 #include <ctime>
 #include <list>
+#include "std/functional.h"
 
 #include "DesignPattern/Singleton.h"
 
