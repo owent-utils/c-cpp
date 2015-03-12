@@ -14,10 +14,13 @@ if (${ENABLE_MIXEDINT_MAGIC_MASK} GREATER 0)
     add_compiler_define("ENABLE_MIXEDINT_MAGIC_MASK=${ENABLE_MIXEDINT_MAGIC_MASK}")
 endif()
 
+set(EXTENTION_LINK_LIB)
 # 查找Lua
 find_package(Lua51)
 if (LUA51_FOUND)
     add_compiler_define("LOG_WRAPPER_ENABLE_LUA_SUPPORT=1")
+    include_directories(${LUA_INCLUDE_DIR})
+    list(APPEND EXTENTION_LINK_LIB ${LUA_LIBRARIES})
 endif()
 
 # 设置输出目录 
