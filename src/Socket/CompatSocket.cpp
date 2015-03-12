@@ -2,9 +2,7 @@
 #include <cstdio>
 #include <stdint.h>
 #include <iostream>
-#include <memory>
 #include <cstring>
-#include <cstdlib>
 #include "Socket/CompatSocket.h"
 
 #if defined(_MSC_VER) && defined(WIN32)
@@ -99,7 +97,7 @@ namespace util
             return INVALID_SOCKET != m_uSock;
         }
 
-        bool CompatSocket::Connect(const char* ip, uint16_t port, DnsInfo::ADDR_TYPE type)
+        bool CompatSocket::Connect(const char* ip, uint16_t port, DnsInfo::ADDR_TYPE::type type)
         {
             struct sockaddr_in svraddr;
             _assign(svraddr.sin_family, type);
@@ -155,6 +153,22 @@ namespace util
                 from->address = ip_buf;
                 _assign(from->type, cliaddr.sin_family);
             }
+
+            return true;
+        }
+
+        bool CompatSocket::GetPeerName(DnsInfo& peer) {
+            struct sockaddr_in peer_addr;
+            socklen_t addrlen = sizeof(peer_addr);
+            int res = getpeername(m_uSock, (struct sockaddr*)&peer_addr, &addrlen);
+            if (0 != res) {
+                return false;
+            }
+
+            char ip_buf[64] = { 0 };
+            inet_ntop(peer_addr.sin_family, &peer_addr.sin_addr, ip_buf, sizeof(ip_buf));
+            peer.address = ip_buf;
+            _assign(peer.type, peer_addr.sin_family);
 
             return true;
         }
@@ -283,6 +297,10 @@ namespace util
             SOCKET uSock = m_uSock;
             m_uSock = INVALID_SOCKET;
 
+            if (INVALID_SOCKET == uSock) {
+                return 0;
+            }
+
         #ifdef WIN32
             return (closesocket(uSock));
         #else
@@ -398,7 +416,7 @@ namespace util
             hints.ai_socktype = SOCK_STREAM;
             hints.ai_protocol = IPPROTO_TCP;
 
-            int res = getaddrinfo(domain, 0, &hints, &result);
+            int res = getaddrinfo(domain, NULL, &hints, &result);
             if (res != 0) {
                 return false;
             }
