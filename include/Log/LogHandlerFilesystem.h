@@ -8,6 +8,7 @@
 #include <memory>
 #include <inttypes.h>
 #include <ctime>
+#include "std/smart_ptr.h"
 
 #include "LogWrapper.h"
 
