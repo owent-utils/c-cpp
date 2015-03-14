@@ -18,9 +18,10 @@ set(EXTENTION_LINK_LIB)
 # 查找Lua
 find_package(Lua51)
 if (LUA51_FOUND)
-    add_compiler_define("LOG_WRAPPER_ENABLE_LUA_SUPPORT=1")
     include_directories(${LUA_INCLUDE_DIR})
     list(APPEND EXTENTION_LINK_LIB ${LUA_LIBRARIES})
+else()
+	add_compiler_define("LOG_WRAPPER_DISABLE_LUA_SUPPORT=1")
 endif()
 
 # 设置输出目录 

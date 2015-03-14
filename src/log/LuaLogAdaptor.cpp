@@ -2,6 +2,7 @@
 
 #include "log/LuaLogAdaptor.h"
 
+#ifndef LOG_WRAPPER_DISABLE_LUA_SUPPORT
 
 static int lua_log_adaptor_fn_lua_log(lua_State *L) {
     int top = lua_gettop(L);
@@ -62,4 +63,6 @@ extern "C" {
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

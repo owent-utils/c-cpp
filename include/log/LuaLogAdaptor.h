@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#ifdef LOG_WRAPPER_ENABLE_LUA_SUPPORT
+#ifndef LOG_WRAPPER_DISABLE_LUA_SUPPORT
 
 #ifdef __cplusplus
 extern "C" {
