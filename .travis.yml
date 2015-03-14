@@ -4,14 +4,20 @@ compiler:
   - gcc
   - cmake
 
-before_script:
-  - sudo apt-get install -qq cmake lua5.1 liblua5.1-*
-  - mkdir -p build && cd build && cmake ..
-
 after_success:
   - bin/owent_utils_test
   
 script: 
+  - REPO_DIR=$PWD
+  - mkdir -p tools && cd tools
+  - wget -c "https://github.com/Kitware/CMake/archive/v3.2.1.tar.gz"
+  - tar -axvf v3.2.1.tar.gz
+  - CMAKE_PREFIX=$PWD/prebuilt/cmake
+  - cd CMake-3.2.1
+  - ./bootstrap --prefix=$CMAKE_PREFIX
+  - make -j4 install
+  - mkdir -p $REPO_DIR/build && cd $REPO_DIR/build
+  - $CMAKE_PREFIX/bin/cmake ..
   - make -j4
 
 install: true

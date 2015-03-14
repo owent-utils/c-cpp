@@ -46,18 +46,18 @@ TEST(MixedIntTest, Compare)
     mixed_uint32_t a3 = 65540;
     
 
-    ASSERT_TRUE(65540 == a3);
-    ASSERT_TRUE(a2 == -65540);
+    ASSERT_TRUE((uint32_t)65540 == a3);
+    ASSERT_TRUE(a2 == (int32_t)-65540);
 
-    ASSERT_TRUE(a3 > 65536);
-    ASSERT_TRUE(-70000 < a2);
+    ASSERT_TRUE(a3 > (uint32_t)65536);
+    ASSERT_TRUE((int32_t)-70000 < a2);
 
     mixed_int32_t a1 = 0;
     ASSERT_TRUE(!a1);
     ASSERT_FALSE((bool)a1);
 
-    ASSERT_TRUE(65540 >= a3);
-    ASSERT_TRUE(a2 <= -65540);
+    ASSERT_TRUE((uint32_t)65540 >= a3);
+    ASSERT_TRUE(a2 <= (int32_t)-65540);
 }
 
 TEST(MixedIntTest, Calculate)
