@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file RandomXorCombineCore.h
  * @brief 伪随机数生成器  - 梅森旋转算法
  *

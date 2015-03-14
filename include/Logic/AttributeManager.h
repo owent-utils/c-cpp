@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file AttributeManager.h
  * @brief 通用属性系统<br />
  * 支持自动处理依赖关系公式

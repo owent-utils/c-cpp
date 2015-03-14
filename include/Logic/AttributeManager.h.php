@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 
 $obj_config = array(

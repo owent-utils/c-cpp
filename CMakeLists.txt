@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.9)
 
-project(OWenTsUtilsCPP)
+project(owent_utils_cpp)
 set (PROJECT_CMAKE_MODULE_DIR "${CMAKE_SOURCE_DIR}/project/cmake")
 
 # 编译选项 
