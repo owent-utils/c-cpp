@@ -1,6 +1,10 @@
 OWenT’s Utils -- C&CPP
 =============
 
+构建环境     | Linux (GCC & Clang) | Windows |
+-------------|---------------------|---------|
+当前构建状态 | [![Build Status](https://travis-ci.org/owent-utils/c-cpp.svg?branch=master)](https://travis-ci.org/owent-utils/c-cpp) | [![Build status](https://ci.appveyor.com/api/projects/status/tcei0gwqc52veok5?svg=true)](https://ci.appveyor.com/project/owt5008137/c-cpp) |
+
 ### 文件夹说明
 **include**  -- 头文件
 
