@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.9)
 
 project(owent_utils_cpp)
-set (PROJECT_CMAKE_MODULE_DIR "${CMAKE_SOURCE_DIR}/project/cmake")
+set (PROJECT_CMAKE_MODULE_DIR "${CMAKE_CURRENT_LIST_DIR}/project/cmake")
 
 # 编译选项 
 #####################################################################
@@ -10,6 +10,10 @@ include("${PROJECT_CMAKE_MODULE_DIR}/ProjectBuildOption.cmake")
 include("${PROJECT_CMAKE_MODULE_DIR}/CompilerOption.cmake")
 include("${PROJECT_CMAKE_MODULE_DIR}/TargetOption.cmake")
 
+if (NOT ENABLE_MIXEDINT_MAGIC_MASK)
+    set(ENABLE_MIXEDINT_MAGIC_MASK 0)
+endif()
+ 
 if (${ENABLE_MIXEDINT_MAGIC_MASK} GREATER 0)
     add_compiler_define("ENABLE_MIXEDINT_MAGIC_MASK=${ENABLE_MIXEDINT_MAGIC_MASK}")
 endif()
