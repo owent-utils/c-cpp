@@ -156,7 +156,7 @@ namespace util
         {
         private:
           typedef enum {Unlocked = 0, Locked = 1} LockState;
-          std::atomic<LockState> m_enStatus;
+          std::atomic_uint m_enStatus;
 
         public:
           SpinLock() : m_enStatus(Unlocked) {}

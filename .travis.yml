@@ -2,7 +2,6 @@ language: cpp
 
 compiler:
   - gcc
-  - cmake
 
 before_script:
   - sudo apt-get install -qq cmake lua5.1 liblua5.1-* libgtest-dev
