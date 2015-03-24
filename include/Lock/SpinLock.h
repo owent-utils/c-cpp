@@ -159,7 +159,9 @@ namespace util
           std::atomic_uint m_enStatus;
 
         public:
-          SpinLock() : m_enStatus(Unlocked) {}
+          SpinLock() {
+			  status_.store(Unlocked);
+		  }
 
           void Lock()
           {
