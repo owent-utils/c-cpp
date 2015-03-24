@@ -160,19 +160,19 @@ namespace util
 
         public:
           SpinLock() {
-			  status_.store(Unlocked);
+			  m_enStatus.store(Unlocked);
 		  }
 
           void Lock()
           {
               unsigned char try_times = 0;
-              while (m_enStatus.exchange(Locked, std::memory_order_acq_rel) == Locked)
+              while (m_enStatus.exchange(static_cast<unsigned int>(Locked), std::memory_order_acq_rel) == Locked)
                   __UTIL_LOCK_SPIN_LOCK_WAIT(try_times ++); /* busy-wait */
           }
 
           void Unlock()
           {
-              m_enStatus.store(Unlocked, std::memory_order_release);
+              m_enStatus.store(static_cast<unsigned int>(Unlocked), std::memory_order_release);
           }
 
           bool IsLocked()
@@ -182,12 +182,12 @@ namespace util
 
           bool TryLock()
           {
-              return m_enStatus.exchange(Locked, std::memory_order_acq_rel) == Unlocked;
+              return m_enStatus.exchange(static_cast<unsigned int>(Locked), std::memory_order_acq_rel) == Unlocked;
           }
           
           bool TryUnlock()
           {
-              return m_enStatus.exchange(Unlocked, std::memory_order_acq_rel) == Locked;
+              return m_enStatus.exchange(static_cast<unsigned int>(Unlocked), std::memory_order_acq_rel) == Locked;
           }
 
         };
