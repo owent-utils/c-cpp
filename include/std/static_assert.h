@@ -38,12 +38,12 @@
 // VC10.0 SP1以上分支判断
 #if (defined(_MSC_VER) &&  _MSC_VER >= 1600 && defined(_HAS_CPP0X) && _HAS_CPP0X) || (defined(__GNUC__) && (__cplusplus >= 201103L || defined(__GXX_EXPERIMENTAL_CXX0X__)) && (__GNUC__ > 4 || ( __GNUC__ == 4 &&  __GNUC_MINOR__ >= 3 ) ) )
     #define STD_STATIC_ASSERT(exp) static_assert(exp, #exp)
-	#define STD_STATIC_ASSERT(exp, msg) static_assert(exp, msg)
+    #define STD_STATIC_ASSERT_MSG(exp, msg) static_assert(exp, msg)
 
 #elif defined(STD_WITH_BOOST_HPP) || defined(STD_ENABLE_BOOST_STATIC_ASSERT)
     #include <boost/static_assert.hpp>
     #define STD_STATIC_ASSERT(exp) BOOST_STATIC_ASSERT(exp)
-	#define STD_STATIC_ASSERT(exp, msg) BOOST_STATIC_ASSERT_MSG(exp, msg)
+    #define STD_STATIC_ASSERT_MSG(exp, msg) BOOST_STATIC_ASSERT_MSG(exp, msg)
 #else
 
 //
@@ -104,7 +104,7 @@ namespace util
 #endif
 
 // 自定义静态断言忽略自定义消息
-#define STD_STATIC_ASSERT_MSG(exp, msg) STD_STATIC_ASSERT_MSG(exp)
+#define STD_STATIC_ASSERT_MSG(exp, msg) STD_STATIC_ASSERT(exp)
 
 #endif
 
