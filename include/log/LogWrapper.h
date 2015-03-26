@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <cstdlib>
+#include <cstdio>
 #include <stdint.h>
 #include <string>
 #include <inttypes.h>
@@ -154,16 +155,41 @@ private:
 }
 
 // 控制台输出工具
-//#define PSTDINFO(fmt,args...)       printf("Info: " fmt, ##args)
-//#define PSTDNOTICE(fmt,args...)     printf("\033[36;1mNotice: " fmt "\033[0m", ##args)
-//#define PSTDWARNING(fmt,args...)    printf("\033[33;1mWarning: " fmt "\033[0m", ##args)
-//#define PSTDERROR(fmt,args...)      printf("\033[31;1mError: " fmt "\033[0m", ##args)
-//#define PSTDOK(fmt,args...)         printf("\033[32;1mOK: " fmt "\033[0m", ##args)
+#ifdef WIN32
+#define PSTDTERMCOLOR(code, fmt) fmt
+#else
+#define PSTDTERMCOLOR(code, fmt) "\033[" #code ";1m" fmt "\033[0m"
+#endif
+
+#ifdef _MSC_VER
+
+#define PSTDINFO(fmt, ...)       printf("Info: " fmt, __VA_ARGS__)
+#define PSTDNOTICE(fmt, ...)     printf(PSTDTERMCOLOR(36, "Notice: " fmt), __VA_ARGS__)
+#define PSTDWARNING(fmt, ...)    printf(PSTDTERMCOLOR(33, "Warning: " fmt), __VA_ARGS__)
+#define PSTDERROR(fmt, ...)      printf(PSTDTERMCOLOR(31, "Error: " fmt), __VA_ARGS__)
+#define PSTDOK(fmt, ...)         printf(PSTDTERMCOLOR(32, "OK: " fmt), __VA_ARGS__)
 //
-//#ifndef NDEBUG
-//    #define PSTDDEBUG(fmt,args...)  printf("\033[35;1mDebug: " fmt "\033[0m", ##args)
-//    #define PSTDMARK                printf("\033[35;5;1mMark: %s:%s (function %s)\033[0m\n", __FILE__, __LINE__, __FUNCTION__)
-//#else
-//    #define PSTDDEBUG(fmt,args...)
-//    #define PSTDMARK
-//#endif
+#ifndef NDEBUG
+#define PSTDDEBUG(fmt, ...)     printf(PSTDTERMCOLOR(35, "Debug: " fmt), __VA_ARGS__)
+#define PSTDMARK                printf(PSTDTERMCOLOR(35, "Mark: %s:%s (function %s)"), __FILE__, __LINE__, __FUNCTION__)
+#else
+#define PSTDDEBUG(fmt, ...)
+#define PSTDMARK
+#endif
+
+#else
+#define PSTDINFO(fmt, args...)       printf("Info: " fmt, ##args)
+#define PSTDNOTICE(fmt, args...)     printf(PSTDTERMCOLOR(36, "Notice: " fmt), ##args)
+#define PSTDWARNING(fmt, args...)    printf(PSTDTERMCOLOR(33, "Warning: " fmt), ##args)
+#define PSTDERROR(fmt, args...)      printf(PSTDTERMCOLOR(31, "Error: " fmt), ##args)
+#define PSTDOK(fmt, args...)         printf(PSTDTERMCOLOR(32, "OK: " fmt), ##args)
+//
+#ifndef NDEBUG
+#define PSTDDEBUG(fmt, args...)     printf(PSTDTERMCOLOR(35, "Debug: " fmt), ##args)
+#define PSTDMARK                    printf(PSTDTERMCOLOR(35, "Mark: %s:%s (function %s)"), __FILE__, __LINE__, __FUNCTION__)
+#else
+#define PSTDDEBUG(fmt, args...)
+#define PSTDMARK
+#endif
+
+#endif
