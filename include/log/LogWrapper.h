@@ -129,29 +129,30 @@ private:
 #define WDTLOGCHECK(lv)  LogWrapper::Instance()->check(lv)
 #define WDTLOGFILENF(name)  LogWrapper::level_t::LOG_LW_##name, #name, __FILE__, __LINE__, __FUNCTION__
 
+
 // 不同级别日志输出
 #define WLOGDEBUG(...) if(WDTLOGCHECK(LogWrapper::level_t::LOG_LW_DEBUG)) { \
-    LogWrapper::Instance()->log(WDTLOGFILENF(DEBUG), #__VA_ARGS__); \
+    LogWrapper::Instance()->log(WDTLOGFILENF(DEBUG), __VA_ARGS__); \
 }
 
 #define WLOGNOTICE(...) if(WDTLOGCHECK(LogWrapper::level_t::LOG_LW_NOTICE)) { \
-    LogWrapper::Instance()->log(WDTLOGFILENF(NOTICE), #__VA_ARGS__); \
+    LogWrapper::Instance()->log(WDTLOGFILENF(NOTICE), __VA_ARGS__); \
 }
 
 #define WLOGINFO(...) if(WDTLOGCHECK(LogWrapper::level_t::LOG_LW_INFO)) { \
-    LogWrapper::Instance()->log(WDTLOGFILENF(INFO), #__VA_ARGS__); \
+    LogWrapper::Instance()->log(WDTLOGFILENF(INFO), __VA_ARGS__); \
 }
 
 #define WLOGWARNING(...) if(WDTLOGCHECK(LogWrapper::level_t::LOG_LW_WARNING)) { \
-    LogWrapper::Instance()->log(WDTLOGFILENF(WARNING), #__VA_ARGS__); \
+    LogWrapper::Instance()->log(WDTLOGFILENF(WARNING), __VA_ARGS__); \
 }
 
 #define WLOGERROR(...) if(WDTLOGCHECK(LogWrapper::level_t::LOG_LW_ERROR)) { \
-    LogWrapper::Instance()->log(WDTLOGFILENF(ERROR), #__VA_ARGS__); \
+    LogWrapper::Instance()->log(WDTLOGFILENF(ERROR), __VA_ARGS__); \
 }
 
 #define WLOGFATAL(...) if(WDTLOGCHECK(LogWrapper::level_t::LOG_LW_FATAL)) { \
-    LogWrapper::Instance()->log(WDTLOGFILENF(FATAL), #__VA_ARGS__); \
+    LogWrapper::Instance()->log(WDTLOGFILENF(FATAL), __VA_ARGS__); \
 }
 
 // 控制台输出工具
@@ -163,14 +164,14 @@ private:
 
 #ifdef _MSC_VER
 
-#define PSTDINFO(fmt, ...)       printf("Info: " fmt, #__VA_ARGS__)
-#define PSTDNOTICE(fmt, ...)     printf(PSTDTERMCOLOR(36, "Notice: " fmt), #__VA_ARGS__)
-#define PSTDWARNING(fmt, ...)    printf(PSTDTERMCOLOR(33, "Warning: " fmt), #__VA_ARGS__)
-#define PSTDERROR(fmt, ...)      printf(PSTDTERMCOLOR(31, "Error: " fmt), #__VA_ARGS__)
-#define PSTDOK(fmt, ...)         printf(PSTDTERMCOLOR(32, "OK: " fmt), #__VA_ARGS__)
+#define PSTDINFO(fmt, ...)       printf("Info: " fmt, __VA_ARGS__)
+#define PSTDNOTICE(fmt, ...)     printf(PSTDTERMCOLOR(36, "Notice: " fmt), __VA_ARGS__)
+#define PSTDWARNING(fmt, ...)    printf(PSTDTERMCOLOR(33, "Warning: " fmt), __VA_ARGS__)
+#define PSTDERROR(fmt, ...)      printf(PSTDTERMCOLOR(31, "Error: " fmt), __VA_ARGS__)
+#define PSTDOK(fmt, ...)         printf(PSTDTERMCOLOR(32, "OK: " fmt), __VA_ARGS__)
 //
 #ifndef NDEBUG
-#define PSTDDEBUG(fmt, ...)     printf(PSTDTERMCOLOR(35, "Debug: " fmt), #__VA_ARGS__)
+#define PSTDDEBUG(fmt, ...)     printf(PSTDTERMCOLOR(35, "Debug: " fmt), __VA_ARGS__)
 #define PSTDMARK                printf(PSTDTERMCOLOR(35, "Mark: %s:%s (function %s)"), __FILE__, __LINE__, __FUNCTION__)
 #else
 #define PSTDDEBUG(fmt, ...)
@@ -193,3 +194,4 @@ private:
 #endif
 
 #endif
+
