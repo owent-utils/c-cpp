@@ -17,7 +17,7 @@ static int lua_log_adaptor_fn_lua_log(lua_State *L) {
         for (int i = 2; i <= top; ++i) {
             const char* content = lua_tostring(L, i);
             if (NULL != content) {
-                LogWrapper::Instance()->log(level, "Lua", NULL, 0, NULL, content);
+                LogWrapper::Instance()->log(level, "Lua", NULL, 0, NULL, "%s", content);
             }
         }
     }
