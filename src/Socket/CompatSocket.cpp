@@ -28,8 +28,8 @@ namespace util
 
         int CompatSocket::Init()
         {
-            static int ret = -1;
         #ifdef WIN32
+            static int ret = -1;
             if (0 == ret)
             {
                 return ret;
@@ -54,11 +54,11 @@ namespace util
             if ( ret ) {
                 std::cerr << "Initilize winsock error !" << std::endl;
             }
-        #else
-            ret = 0;
-        #endif
-            
+
             return ret;
+        #else
+            return 0;
+        #endif
         }
         //this is just for windows
         int CompatSocket::Clean()
@@ -175,7 +175,7 @@ namespace util
 
         int CompatSocket::Send(const char* buf, int len)
         {
-            //·Ç×èÈûsend 
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½send 
             int iRet = 0;
 
             #ifdef WIN32
@@ -186,7 +186,7 @@ namespace util
             
             if (iRet < 0) {
                 int err = GetError();
-                // ÁíÒ»ÖÖ·½°¸ÊÇ(Ð§¹ûÈçºÎÓÐ´ý¿¼Ö¤)
+                // ï¿½ï¿½Ò»ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½(Ð§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½Ö¤)
                 // #ifdef WIN32
                 // if (WSAEWOULDBLOCK != err)
                 // #else
@@ -213,7 +213,7 @@ namespace util
 
         int CompatSocket::Recv(char* buf, int len)
         {
-            //·Ç×èÈû recv 
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ recv 
             int iRet = 0;
             #ifdef WIN32
             iRet = recv(m_uSock, buf, len, 0);
@@ -222,12 +222,12 @@ namespace util
             #endif
 
             // http://linux.die.net/man/2/recv
-            // recv ·µ»Ø0£¬ÔòÊÇsocket¶Ô¶Ë¶Ï¿ª
+            // recv ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½socketï¿½Ô¶Ë¶Ï¿ï¿½
             if (0 == iRet) {
                 Close();
             } else if (iRet < 0) {
                 int err = GetError();
-                // ÁíÒ»ÖÖ·½°¸ÊÇ(Ð§¹ûÈçºÎÓÐ´ý¿¼Ö¤)
+                // ï¿½ï¿½Ò»ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½(Ð§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½Ö¤)
                 // #ifdef WIN32
                 // if (WSAEWOULDBLOCK != err)
                 // #else
@@ -254,7 +254,7 @@ namespace util
 
         int CompatSocket::Select(bool read, bool write, int iSecond, int iMicroSeconds)
         {
-            // Select²Ù×÷
+            // Selectï¿½ï¿½ï¿½ï¿½
             fd_set wset;
             if (write) {
                 FD_ZERO(&wset);

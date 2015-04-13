@@ -61,7 +61,8 @@ void LogHandlerFilesystem::setFilePattern(const std::string& file_name_pattern, 
     log_file_suffix_ = suffix;
 
     char* paths = static_cast<char*>(malloc(file_name_pattern.size() + 1));
-    strncpy(paths, file_name_pattern.c_str(), file_name_pattern.size() + 1);
+    strncpy(paths, file_name_pattern.c_str(), file_name_pattern.size());
+    paths[file_name_pattern.size()] = '\0';
 
     char* token = strtok(paths, "\\/");
     while (NULL != token) {
