@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file MixedInt.h
  * @brief 混淆整数类型
  * Licensed under the MIT licenses.
@@ -110,7 +110,7 @@ namespace util
             public:
                 // constructure & destructure
                 mixed_int(){}
-                mixed_int(const mixed_int& other): data_(other.data_){}
+                mixed_int(const mixed_int& other) : data_(other.data_){}
                 mixed_int(value_type d) : data_(encode(d)) {}
 
                 // assign & assign copy
@@ -182,10 +182,10 @@ namespace util
                 template<typename TR>
                 self_type& operator%=(const TR& other) { return (*this) = (value_type)(*this) % unwrapper(other); }
 
-                self_type& operator++() { return (*this) = ++ (value_type)(*this); }
-                self_type& operator++(int) { return (*this) = ++ (value_type)(*this); }
-                self_type& operator--() { return (*this) = -- (value_type)(*this); }
-                self_type& operator--(int) { return (*this) = -- (value_type)(*this); }
+                self_type& operator++() { return (*this) = (value_type)(*this) + 1; }
+                self_type operator++(int) { self_type ret = (*this); ++(*this); return ret; }
+                self_type& operator--() { return (*this) = (value_type)(*this) - 1; }
+                self_type operator--(int) { self_type ret = (*this); --(*this); return ret; }
 
                 friend value_type operator+(const self_type& l, const self_type& r) { return (value_type)l + (value_type)r; }
                 template<typename TL>
@@ -248,10 +248,14 @@ namespace util
                 friend value_type operator^(const self_type& l, const TR& r) { return (value_type)l ^ unwrapper(r); }
  
                 friend value_type operator>>(const self_type& l, const self_type& r) { return (value_type)l >> (value_type)r; }
+                template<typename TL>
+                friend value_type operator>>(const TL& l, const self_type& r) { return unwrapper(l) >> (value_type)r; }
                 template<typename TR>
                 friend value_type operator>>(const self_type& l, const TR& r) { return (value_type)l >> unwrapper(r); }
 
                 friend value_type operator<<(const self_type& l, const self_type& r) { return (value_type)l << (value_type)r; }
+                template<typename TL>
+                friend value_type operator<<(const TL& l, const self_type& r) { return unwrapper(l) << (value_type)r; }
                 template<typename TR>
                 friend value_type operator<<(const self_type& l, const TR& r) { return (value_type)l << unwrapper(r); }
 
