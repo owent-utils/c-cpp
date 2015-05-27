@@ -14,12 +14,12 @@ script:
   - mkdir -p tools && cd tools
   - CMAKE_PREFIX=$PWD/prebuilt/cmake
   - if [ ! -e "$CMAKE_PREFIX/bin/cmake" ];
-  -     wget -c "https://github.com/Kitware/CMake/archive/v3.2.2.tar.gz"
-  -     tar -axvf v3.2.2.tar.gz  > build_cmake.log 2>&1
-  -     cd CMake-3.2.2
-  -     ./bootstrap --prefix=$CMAKE_PREFIX  >> build_cmake.log 2>&1
-  -     make -j4 install  >> build_cmake.log 2>&1
-  - fi
+        wget -c "https://github.com/Kitware/CMake/archive/v3.2.2.tar.gz"
+        tar -axvf v3.2.2.tar.gz  > build_cmake.log 2>&1
+        cd CMake-3.2.2
+        ./bootstrap --prefix=$CMAKE_PREFIX  >> build_cmake.log 2>&1
+        make -j4 install  >> build_cmake.log 2>&1
+    fi
   - mkdir -p $REPO_DIR/build && cd $REPO_DIR/build
   - $CMAKE_PREFIX/bin/cmake ..
   - make -j4
