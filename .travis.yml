@@ -13,7 +13,7 @@ script:
   - REPO_DIR=$PWD
   - mkdir -p tools && cd tools
   - CMAKE_PREFIX=$PWD/prebuilt/cmake
-  - if [ ! -e "$CMAKE_PREFIX/bin/cmake" ];
+  - if [ ! -e "$CMAKE_PREFIX/bin/cmake" ]; then
         wget -c "https://github.com/Kitware/CMake/archive/v3.2.2.tar.gz" ;
         tar -axvf v3.2.2.tar.gz  > build_cmake.log 2>&1 ;
         cd CMake-3.2.2 ;
