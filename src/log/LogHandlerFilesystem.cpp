@@ -214,6 +214,7 @@ const tm* LogHandlerFilesystem::get_tm() {
 void LogHandlerFilesystem::delete_file(FILE** f) {
     if (f) {
         if (NULL != *f) {
+            fflush(*f);
             fclose(*f);
             *f = NULL;
         }
