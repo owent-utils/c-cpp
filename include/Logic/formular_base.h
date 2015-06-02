@@ -285,7 +285,6 @@ namespace util
                 }
 
                 static const char* pick_var(const char* str) {
-                    const char* start = str;
                     if (nullptr == str || !is_var(str)) {
                         return nullptr;
                     }
@@ -306,7 +305,6 @@ namespace util
                 }
 
                 static const char* pick_placeholder(const char* str) {
-                    const char* start = str;
                     if (nullptr == str || !is_placeholder(str)) {
                         return nullptr;
                     }
@@ -468,7 +466,7 @@ namespace util
                         }
 
                         // 结算低优先级运算符
-                        while ('(' != opr_stack.top()[0] && om[v[0]] <= om[opr_stack.top()[0]]) {
+                        while ('(' != opr_stack.top()[0] && om[static_cast<int>(v[0])] <= om[static_cast<int>(opr_stack.top()[0])]) {
                             generate_stack_call<TVal, TC, TFn>(caller_stack, opr_stack);
                         }
                         opr_stack.push(v);
