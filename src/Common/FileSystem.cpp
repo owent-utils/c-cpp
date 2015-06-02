@@ -2,6 +2,8 @@
 // Created by 欧文韬 on 2015/6/2.
 //
 
+#include <cstring>
+#include <memory>
 #include <cstdio>
 #include "Common/FileSystem.h"
 
@@ -19,12 +21,12 @@
 #endif
 
 namespace util {
-    std::string FileSystem::GetFileContent(std::string& out, const char* file_path, bool is_binary) {
+    bool FileSystem::GetFileContent(std::string& out, const char* file_path, bool is_binary) {
         FILE* f = NULL;
         if(is_binary) {
-            f = fopen(path, "rb");
+            f = fopen(file_path, "rb");
         } else {
-            f = fopen(path, "r");
+            f = fopen(file_path, "r");
         }
 
         if (NULL == f) {
@@ -81,7 +83,7 @@ namespace util {
         return 0 == FUNC_ACCESS(file_path);
     }
 
-    bool Mkdir(const char* dir_path, bool recursion, int mode) {
+    bool FileSystem::Mkdir(const char* dir_path, bool recursion, int mode) {
 #ifndef _MSC_VER
         if (0 == mode) {
             mode = S_IRWXU | S_IRWXG | S_IRGRP | S_IWGRP | S_IROTH;
@@ -130,13 +132,15 @@ namespace util {
 
     std::string FileSystem::GetAbsPath(const char* dir_path) {
         std::string ret;
-        ret.reserve(MAX_PATH_LEN + 1, 0);
+        ret.resize(MAX_PATH_LEN + 1, 0);
 
 #ifdef _MSC_VER
          _fullpath(const_cast<char*>(ret.data()), dir_path, ret.size());
 #else
         readlink(dir_path, const_cast<char*>(ret.data()), ret.size());
 #endif
+
+        ret.resize(strlen(ret.c_str()));
         return ret;
     }
 

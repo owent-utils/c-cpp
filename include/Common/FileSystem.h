@@ -15,7 +15,7 @@
 #ifndef _UTIL_COMMON__FILESYSTEM_H
 #define _UTIL_COMMON__FILESYSTEM_H
 
-#pramge once
+#pragma once
 
 #include <string>
 #include <vector>
@@ -39,7 +39,7 @@ namespace util {
                 '\\';
             #else
                 '/';
-            #end
+            #endif
 
         static const size_t MAX_PATH_LEN =
 #if defined(MAX_PATH)
@@ -50,7 +50,7 @@ namespace util {
             PATH_MAX;
 #else
             260;
-#end
+#endif
 
     public:
         /**
