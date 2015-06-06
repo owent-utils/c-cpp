@@ -8,6 +8,7 @@
 * @date 2014.03.13
 *
 * @history
+*   2015-06-06: 适配Android和IOS
 *
 */
 
@@ -29,7 +30,16 @@
     // android 不支持tls 
     #define THREAD_TLS
 #elif defined(__clang__)
-    #define THREAD_TLS __thread
+    // IOS 不支持tls 
+    #if __has_feature(cxx_thread_local)
+        #define THREAD_TLS thread_local
+    #elif __has_feature(c_thread_local) || __has_extension(c_thread_local)
+        #define THREAD_TLS _Thread_local
+    #elif !defined(__IOS__)
+        #define THREAD_TLS __thread
+    #else
+        #define THREAD_TLS
+    #endif
 #elif defined(__cplusplus) && __cplusplus >= 201103L
     #define THREAD_TLS thread_local
 // VC 2003
