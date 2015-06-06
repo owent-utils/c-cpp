@@ -26,7 +26,7 @@
  * @see http://en.wikipedia.org/wiki/Thread-local_storage#C.2B.2B
  * @note 不支持 C++ Builder 编译器
  */
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IOS__)
     // android 不支持tls 
     #define THREAD_TLS
 #elif defined(__clang__)
@@ -35,10 +35,8 @@
         #define THREAD_TLS thread_local
     #elif __has_feature(c_thread_local) || __has_extension(c_thread_local)
         #define THREAD_TLS _Thread_local
-    #elif !defined(__IOS__)
-        #define THREAD_TLS __thread
     #else
-        #define THREAD_TLS
+        #define THREAD_TLS __thread
     #endif
 #elif defined(__cplusplus) && __cplusplus >= 201103L
     #define THREAD_TLS thread_local
