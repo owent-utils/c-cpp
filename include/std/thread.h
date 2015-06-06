@@ -26,11 +26,19 @@
  * @see http://en.wikipedia.org/wiki/Thread-local_storage#C.2B.2B
  * @note 不支持 C++ Builder 编译器
  */
-#if defined(__ANDROID__) || defined(__IOS__)
-    // android 不支持tls 
+// IOS 不支持tls
+#if defined(__APPLE__)
+    #if __dest_os != __mac_os_x
+        #define THREAD_TLS
+    #endif
+#endif
+
+// android 不支持tls 
+#if !defined(THREAD_TLS) && defined(__ANDROID__)
     #define THREAD_TLS
-#elif defined(__clang__)
-    // IOS 不支持tls 
+#endif
+
+#if !defined(THREAD_TLS) && defined(__clang__)
     #if __has_feature(cxx_thread_local)
         #define THREAD_TLS thread_local
     #elif __has_feature(c_thread_local) || __has_extension(c_thread_local)
@@ -38,13 +46,23 @@
     #else
         #define THREAD_TLS __thread
     #endif
-#elif defined(__cplusplus) && __cplusplus >= 201103L
+#endif
+
+#if !defined(THREAD_TLS) && defined(__cplusplus) && __cplusplus >= 201103L
     #define THREAD_TLS thread_local
+#endif
+
 // VC 2003
-#elif defined(_MSC_VER) && (_MSC_VER >= 1300)
-    #define THREAD_TLS __declspec( thread )
-#else
-    #define THREAD_TLS __thread
+#if !defined(THREAD_TLS)
+    #if defined(_MSC_VER) && (_MSC_VER >= 1300)
+        #define THREAD_TLS __declspec( thread )
+    #else
+        #define THREAD_TLS __thread
+    #endif
+#endif
+
+#if !defined(THREAD_TLS)
+    #define THREAD_TLS
 #endif
 
 #endif
