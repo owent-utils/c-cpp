@@ -12,6 +12,7 @@
  *
  * @history
  *   2012.07.20 为线程安全而改进实现方式
+ *   2015.01.10 改为使用双检锁实现线程安全
  *
  */
 
@@ -20,6 +21,8 @@
 
 #include "Noncopyable.h"
 
+#include "Lock/SpinLock.h"
+#include "std/smart_ptr.h"
 #include <cstddef>
 
 namespace wrapper
@@ -44,16 +47,17 @@ template <typename T>
 class Singleton : public Noncopyable
 {
 public:
-	/**
-	 * @brief 自身类型声明
-	 */
+    /**
+     * @brief 自身类型声明
+     */
     typedef T self_type;
+    typedef std::shared_ptr<self_type> ptr_t;
 
 protected:
 
-	/**
-	 * @brief 虚类，禁止直接构造
-	 */
+    /**
+     * @brief 虚类，禁止直接构造
+     */
     Singleton() {}
 
     /**
@@ -62,39 +66,64 @@ protected:
     static void use(self_type const &) {}
 
 public:
-	/**
-	 * @brief 获取单件对象引用
-	 * @return T& instance
-	 */
+    /**
+     * @brief 获取单件对象引用
+     * @return T& instance
+     */
     static T& GetInstance()
     {
-        static wrapper::SingletonWrapper<self_type> stInstance;
-        use(stInstance);
-        return static_cast<T&>(stInstance);
+        return *Me();
     }
 
-	/**
-	 * @brief 获取单件对象常量引用
-	 * @return const T& instance
-	 */
+    /**
+     * @brief 获取单件对象常量引用
+     * @return const T& instance
+     */
     static const T& GetConstInstance()
     {
         return GetInstance();
     }
 
     /**
-     * @brief 获取实例指针 (不推荐使用，仅作向前兼容)
+     * @brief 获取实例指针
      * @return T* instance
      */
     static self_type* Instance()
     {
-        return &GetInstance();
+        return Me().get();
     }
 
-	/**
-	 * @brief 判断是否已被析构
-	 * @return bool 
-	 */
+    /**
+    * @brief 获取原始指针
+    * @return T* instance
+    */
+    static ptr_t& Me()
+    {
+        static ptr_t inst;
+        if (!inst) {
+            static util::lock::SpinLock lock;
+            lock.Lock();
+
+            do
+            {
+                if (inst) {
+                    break;
+                }
+
+                inst = ptr_t(new wrapper::SingletonWrapper<self_type>());
+            } while (false);
+
+            lock.Unlock();
+            use(*inst);
+        }
+
+        return inst;
+    }
+
+    /**
+     * @brief 判断是否已被析构
+     * @return bool 
+     */
     static bool IsInstanceDestroyed()
     {
         return wrapper::SingletonWrapper<T>::ms_bDestroyed;
