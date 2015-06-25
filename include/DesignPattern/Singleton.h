@@ -1,8 +1,8 @@
 /**
  * @file Singleton.h
- * @brief µ¥¼şÄ£Ê½»ùÀà, ²Î¿¼ boost::serialization::singleton,È¥³ıÁËDebugËø²Ù×÷ <br />
- *        ÊµÀıµÄ³õÊ¼»¯»áÔÚÄ£¿éÔØÈë£¨Èç¹ûÊÇ¶¯Ì¬Á´½Ó¿âÔòÊÇÔØÈë¶¯Ì¬Á´½Ó¿â£©Ê±Æô¶¯ <br />
- *        ÔÚÄ£¿éĞ¶ÔØÊ±»á×Ô¶¯Îö¹¹ <br />
+ * @brief å•ä»¶æ¨¡å¼åŸºç±», å‚è€ƒ boost::serialization::singleton,å»é™¤äº†Debugé”æ“ä½œ <br />
+ *        å®ä¾‹çš„åˆå§‹åŒ–ä¼šåœ¨æ¨¡å—è½½å…¥ï¼ˆå¦‚æœæ˜¯åŠ¨æ€é“¾æ¥åº“åˆ™æ˜¯è½½å…¥åŠ¨æ€é“¾æ¥åº“ï¼‰æ—¶å¯åŠ¨ <br />
+ *        åœ¨æ¨¡å—å¸è½½æ—¶ä¼šè‡ªåŠ¨ææ„ <br />
  *
  * Note that this singleton class is thread-safe.
  *
@@ -11,7 +11,8 @@
  * @date 2012.02.13
  *
  * @history
- *   2012.07.20 ÎªÏß³Ì°²È«¶ø¸Ä½øÊµÏÖ·½Ê½
+ *   2012.07.20 ä¸ºçº¿ç¨‹å®‰å…¨è€Œæ”¹è¿›å®ç°æ–¹å¼
+ *   2015.01.10 æ”¹ä¸ºä½¿ç”¨åŒæ£€é”å®ç°çº¿ç¨‹å®‰å…¨
  *
  */
 
@@ -20,6 +21,8 @@
 
 #include "Noncopyable.h"
 
+#include "Lock/SpinLock.h"
+#include "std/smart_ptr.h"
 #include <cstddef>
 
 namespace wrapper
@@ -44,57 +47,83 @@ template <typename T>
 class Singleton : public Noncopyable
 {
 public:
-	/**
-	 * @brief ×ÔÉíÀàĞÍÉùÃ÷
-	 */
+    /**
+     * @brief è‡ªèº«ç±»å‹å£°æ˜
+     */
     typedef T self_type;
+    typedef std::shared_ptr<self_type> ptr_t;
 
 protected:
 
-	/**
-	 * @brief ĞéÀà£¬½ûÖ¹Ö±½Ó¹¹Ôì
-	 */
+    /**
+     * @brief è™šç±»ï¼Œç¦æ­¢ç›´æ¥æ„é€ 
+     */
     Singleton() {}
 
     /**
-     * @brief ÓÃÓÚÔÚ³õÊ¼»¯½×¶ÎÇ¿ÖÆ¹¹Ôìµ¥¼şÊµÀı
+     * @brief ç”¨äºåœ¨åˆå§‹åŒ–é˜¶æ®µå¼ºåˆ¶æ„é€ å•ä»¶å®ä¾‹
      */
     static void use(self_type const &) {}
 
 public:
-	/**
-	 * @brief »ñÈ¡µ¥¼ş¶ÔÏóÒıÓÃ
-	 * @return T& instance
-	 */
+    /**
+     * @brief è·å–å•ä»¶å¯¹è±¡å¼•ç”¨
+     * @return T& instance
+     */
     static T& GetInstance()
     {
-        static wrapper::SingletonWrapper<self_type> stInstance;
-        use(stInstance);
-        return static_cast<T&>(stInstance);
+        return *Me();
     }
 
-	/**
-	 * @brief »ñÈ¡µ¥¼ş¶ÔÏó³£Á¿ÒıÓÃ
-	 * @return const T& instance
-	 */
+    /**
+     * @brief è·å–å•ä»¶å¯¹è±¡å¸¸é‡å¼•ç”¨
+     * @return const T& instance
+     */
     static const T& GetConstInstance()
     {
         return GetInstance();
     }
 
     /**
-     * @brief »ñÈ¡ÊµÀıÖ¸Õë (²»ÍÆ¼öÊ¹ÓÃ£¬½ö×÷ÏòÇ°¼æÈİ)
+     * @brief è·å–å®ä¾‹æŒ‡é’ˆ
      * @return T* instance
      */
     static self_type* Instance()
     {
-        return &GetInstance();
+        return Me().get();
     }
 
-	/**
-	 * @brief ÅĞ¶ÏÊÇ·ñÒÑ±»Îö¹¹
-	 * @return bool 
-	 */
+    /**
+    * @brief è·å–åŸå§‹æŒ‡é’ˆ
+    * @return T* instance
+    */
+    static ptr_t& Me()
+    {
+        static ptr_t inst;
+        if (!inst) {
+            static util::lock::SpinLock lock;
+            lock.Lock();
+
+            do
+            {
+                if (inst) {
+                    break;
+                }
+
+                inst = ptr_t(new wrapper::SingletonWrapper<self_type>());
+            } while (false);
+
+            lock.Unlock();
+            use(*inst);
+        }
+
+        return inst;
+    }
+
+    /**
+     * @brief åˆ¤æ–­æ˜¯å¦å·²è¢«ææ„
+     * @return bool 
+     */
     static bool IsInstanceDestroyed()
     {
         return wrapper::SingletonWrapper<T>::ms_bDestroyed;

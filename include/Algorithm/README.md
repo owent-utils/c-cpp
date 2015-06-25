@@ -7,6 +7,7 @@ OWenT’s Utils - Algorithm
 1. [Crypto++](http://www.cryptopp.com/) (License: Boost Software License 1.0)
 2. [OpenSSL](http://www.openssl.org/) (License: OpenSSL License, Apache-style licence)
 3. [Libtom](http://www.libtom.org) 的libtomcrypt部分 (License: DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE, 尼玛以前一直有耳闻，今天终于见到了这个协议的说)
+4. [PolarSSL/mbed TLS](https://tls.mbed.org/) 用于嵌入式比较轻量级的加密库
 
 
 面向特定应用场景的Hash算法
@@ -14,4 +15,6 @@ OWenT’s Utils - Algorithm
 
 1. [MurmurHash](https://code.google.com/p/smhasher/wiki/MurmurHash) 对连续输入有良好散列结果并且性能不错的Hash算法（redis用的是MurmurHash2）
 2. [CityHash](https://code.google.com/p/cityhash/) Google受MurmurHash启发搞出来的新Hash算法，未对小字符串做优化，性能更高一点点，但是实现更为复杂
-2. [FarmHash](https://code.google.com/p/farmhash/) 还是Google搞出来的更新新Hash算法，官方说比CityHash性能还会高一点点。但是实现巨复杂无比
+3. [FarmHash](https://code.google.com/p/farmhash/) 还是Google搞出来的更新新Hash算法，官方说比CityHash性能还会高一点点。但是实现巨复杂无比
+4. [CRC32/CRC64](https://github.com/owt5008137/libatbus/tree/master/src/detail) @see [libatbus](https://github.com/owt5008137/libatbus)
+5. [CRC16](https://github.com/antirez/redis/blob/unstable/src/crc16.c) @see [redis](https://github.com/antirez/redis)
