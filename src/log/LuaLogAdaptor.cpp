@@ -6,18 +6,22 @@
 
 static int lua_log_adaptor_fn_lua_log(lua_State *L) {
     int top = lua_gettop(L);
-    if (top < 1) {
+    if (top < 2) {
         WLOGERROR("call lua function: lua_log without log level.");
         return 0;
     }
 
-    LogWrapper::level_t::type level = static_cast<LogWrapper::level_t::type>(luaL_checkinteger(L, 1));
+    // TODO log 分类
+    // LogWrapperMgr::categorize_t::type cat = static_cast<LogWrapperMgr::categorize_t::type>(luaL_checkinteger(L, 1));
 
-    if (WDTLOGCHECK(level)) {
-        for (int i = 2; i <= top; ++i) {
+    LogWrapper::level_t::type level = static_cast<LogWrapper::level_t::type>(luaL_checkinteger(L, 2));
+
+    LogWrapper* ptr = LogWrapper::Instance();
+    if (ptr && ptr->check(level)) {
+        for (int i = 3; i <= top; ++i) {
             const char* content = lua_tostring(L, i);
-            if (NULL != content) {
-                LogWrapper::Instance()->log(level, "Lua", NULL, 0, NULL, "%s", content);
+            if (NULL != content && ptr) {
+                ptr->log(level, "Lua", NULL, 0, NULL, "%s",content);
             }
         }
     }
