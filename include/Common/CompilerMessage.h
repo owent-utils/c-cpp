@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file CompilerMessage.h
  * @brief 编译器适配
  * Licensed under the MIT licenses.
