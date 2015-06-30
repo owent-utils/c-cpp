@@ -1,4 +1,4 @@
-#include <typeinfo>
+﻿#include <typeinfo>
 #include "frame/test_macros.h"
 
 #include "Lock/SpinLock.h"

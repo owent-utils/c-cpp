@@ -1,5 +1,5 @@
-/**  
- * @brief ÓĞÏŞ×´Ì¬»ú
+ï»¿/**  
+ * @brief æœ‰é™çŠ¶æ€æœº
  *
  * @version 1.0
  * @author OWenT
@@ -17,8 +17,8 @@ namespace util {
     namespace ds {
         
         /**
-         * ÓĞÏŞ×´Ì¬»ú
-         * @brief ±ØĞëÓĞ0×´Ì¬
+         * æœ‰é™çŠ¶æ€æœº
+         * @brief å¿…é¡»æœ‰0çŠ¶æ€
          */
         template <typename T, typename... TParams>
         class finite_state_machine {
@@ -164,7 +164,7 @@ namespace util {
                 }
 
                 typename listener_set_type::iterator iter_single;
-                // ÏÈ´¥·¢Àë³¡×´Ì¬»Øµ÷
+                // å…ˆè§¦å‘ç¦»åœºçŠ¶æ€å›è°ƒ
                 if (leave_from_listener_) {
                     iter_single = leave_from_listener_->find(t);
                     if (leave_from_listener_->end() != iter_single) {
@@ -174,7 +174,7 @@ namespace util {
                     }
                 }
 
-                // ÔÙ´¥·¢½ø³¡×´Ì¬»Øµ÷
+                // å†è§¦å‘è¿›åœºçŠ¶æ€å›è°ƒ
                 if (enter_to_listener_) {
                     iter_single = enter_to_listener_->find(t);
                     if (enter_to_listener_->end() != iter_single) {
@@ -184,7 +184,7 @@ namespace util {
                     }
                 }
 
-                // ×îºó´¥·¢ÇĞ»»×´Ì¬»Øµ÷
+                // æœ€åè§¦å‘åˆ‡æ¢çŠ¶æ€å›è°ƒ
                 for (value_type& fn: iter_to->second) {
                     fn(state_, t, params...);
                 }

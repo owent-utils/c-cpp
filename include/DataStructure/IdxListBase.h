@@ -1,4 +1,4 @@
-/**
+﻿/**
 * @file IdxList.h
 * @brief 固定下标链表基类<br />
 * Licensed under the MIT licenses.

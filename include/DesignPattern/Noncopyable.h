@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * @file Noncopyable.h
- * @brief ½ûÖ¹¸´ÖÆ»ùÀà,¼Ì³Ð¸ÃÀàµÄ×ÓÀà²»ÔÊÐí¸´ÖÆ
+ * @brief ç¦æ­¢å¤åˆ¶åŸºç±»,ç»§æ‰¿è¯¥ç±»çš„å­ç±»ä¸å…è®¸å¤åˆ¶
  *
  *
  * @version 1.0

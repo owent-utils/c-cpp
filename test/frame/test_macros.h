@@ -57,9 +57,9 @@ void test_case_func_name(test_name, case_name) ()
             ++(*test_manager::me().success_counter_ptr); \
         } else { \
             ++(*test_manager::me().failed_counter_ptr);\
-            printf(shell_font::GenerateString("FAILED => %s:%d\nExpected: %s\n", SHELL_FONT_COLOR_RED).c_str(),\
-                __FILE__, __LINE__, \
-                #expr); \
+            shell_stream ss(std::cout); \
+            ss() << ShekkFontStyle::SHELL_FONT_COLOR_RED<< "FAILED => " << __FILE__<< ":" << __LINE__<< std::endl << \
+            "Expected: "<< #expr<< std::endl; \
         }
 
     #define CASE_EXPECT_TRUE(c) CASE_EXPECT_EXPR(c)

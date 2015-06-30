@@ -1,8 +1,8 @@
-/**  
- * @brief ¾²Ì¬ÎŞËø¶ÓÁĞ(Êı×é)
- * @note ¹Ì¶¨×î´ó³¤¶È
- * @note Ê¹ÓÃÁË c++11µÄatomic
- *       ²»Ö§³ÖµÄ±àÒëÆ÷¾Í×ÔÇó¶à¸£°É
+ï»¿/**  
+ * @brief é™æ€æ— é”é˜Ÿåˆ—(æ•°ç»„)
+ * @note å›ºå®šæœ€å¤§é•¿åº¦
+ * @note ä½¿ç”¨äº† c++11çš„atomic
+ *       ä¸æ”¯æŒçš„ç¼–è¯‘å™¨å°±è‡ªæ±‚å¤šç¦å§
  *
  * @version 1.0
  * @author OWenT
@@ -59,14 +59,14 @@ namespace util {
             }
 
             /**
-             * @brief »ñÈ¡Ô­Ê¼Êı¾İ
+             * @brief è·å–åŸå§‹æ•°æ®
              */
             iterator at(size_t index) {
                 return &data_[index];
             }
 
             /**
-             * @brief »ñÈ¡Ô­Ê¼Êı¾İ
+             * @brief è·å–åŸå§‹æ•°æ®
              */
             iterator at(size_t index) const {
                 return &data_[index];

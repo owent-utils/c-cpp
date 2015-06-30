@@ -1,4 +1,4 @@
-/**
+﻿/**
 * @file IdxList.h
 * @brief 固定下标链表<br />
 * 可用于共享内存<br />
