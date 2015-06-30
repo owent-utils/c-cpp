@@ -149,7 +149,7 @@ namespace util {
             }
 
             size_t size() const {
-                return (data_.capacity() + end_ - start_) % data_.capacity();
+                return (data_.size() + end_ - start_) % data_.size();
             }
 
 

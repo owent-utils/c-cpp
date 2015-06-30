@@ -175,7 +175,7 @@ namespace util
 
         int CompatSocket::Send(const char* buf, int len)
         {
-            //������send 
+            //非阻塞send 
             int iRet = 0;
 
             #ifdef WIN32
@@ -186,7 +186,7 @@ namespace util
             
             if (iRet < 0) {
                 int err = GetError();
-                // ��һ�ַ�����(Ч������д���֤)
+                // 另一种方案是(效果如何有待考证)
                 // #ifdef WIN32
                 // if (WSAEWOULDBLOCK != err)
                 // #else
@@ -272,14 +272,16 @@ namespace util
             tm.tv_usec = iMicroSeconds;
 
             int iRet = select(m_uSock + 1, read ? &rset : NULL, write? &wset: NULL, NULL, &tm);
-            if (iRet == 0)
+            if (iRet == 0) // timeout
             {
-                // Time out
-                return -1;
+			   return iRet;
             }
+			else if (iRet < 0) // error
+			{
+				return iRet;
+			}
 
-            iRet = -2;
-            if (read && FD_ISSET(m_uSock, &rset))
+            if (read && (!FD_ISSET(m_uSock, &rset)))
             {
                 iRet = 0;
             }

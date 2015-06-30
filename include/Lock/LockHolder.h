@@ -30,16 +30,17 @@ namespace util
             template<typename TLock>
             struct DefaultLockAction
             {
-                bool Lock(TLock& lock)
+                bool operator()(TLock& lock) const
                 {
-                    return lock.Lock();
+                    lock.Lock();
+                    return true;
                 }
             };
 
             template<typename TLock>
             struct DefaultTryLockAction
             {
-                bool Lock(TLock& lock)
+                bool operator()(TLock& lock) const
                 {
                     return lock.TryLock();
                 }
@@ -48,7 +49,7 @@ namespace util
             template<typename TLock>
             struct DefaultUnlockAction
             {
-                void operator()(TLock& lock)
+                void operator()(TLock& lock) const
                 {
                     return lock.Unlock();
                 }
@@ -57,7 +58,7 @@ namespace util
             template<typename TLock>
             struct DefaultTryUnlockAction
             {
-                void operator()(TLock& lock)
+                void operator()(TLock& lock) const
                 {
                     return lock.TryUnlock();
                 }

@@ -116,7 +116,13 @@ namespace util
                     // http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/MT2002/emt19937ar.html
                     // In the previous versions, MSBs of the seed affected only MSBs of the
                     // state m_arrStatus[].
+
+                    // fuck vc
+#ifdef max
+#undef max
+#endif
                     const UIntType mask = std::numeric_limits<UIntType>::max();
+
                     m_arrStatus[0] = tSeed & mask;
                     for (m_uIndex = 1; m_uIndex < MAX_STATUS_N_SIZE; ++ m_uIndex)
                     {

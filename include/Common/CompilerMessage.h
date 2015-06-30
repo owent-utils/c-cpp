@@ -45,7 +45,7 @@
         #define COMPILER_MSG_ERROR(...) __pragma(message(COMPILER_MSG_CONTENT("[error]: ", __VA_ARGS__))) \
             __pragma(message(false))
 
-        #undef COMPILER_MSG_CONTENT
+        // #undef COMPILER_MSG_CONTENT
         // #define COMPILER_MSG_ERROR(...) #error __VA_ARGS__
     #else
         #define COMPILER_PRAGMA(...)
@@ -64,7 +64,7 @@
     #define COMPILER_MSG_ERROR(...) __pragma(message(COMPILER_MSG_CONTENT("[error]: ", __VA_ARGS__))) \
         __pragma(message(false))
 
-    #undef COMPILER_MSG_CONTENT
+    // #undef COMPILER_MSG_CONTENT
     // #define COMPILER_MSG_ERROR(...) #error __VA_ARGS__
         
 #else
