@@ -1,4 +1,4 @@
-// Licensed under the MIT licenses.
+﻿// Licensed under the MIT licenses.
 #include <cstdio>
 #include <stdint.h>
 #include <iostream>
@@ -213,7 +213,7 @@ namespace util
 
         int CompatSocket::Recv(char* buf, int len)
         {
-            //������ recv 
+            //非阻塞 recv 
             int iRet = 0;
             #ifdef WIN32
             iRet = recv(m_uSock, buf, len, 0);
@@ -222,12 +222,12 @@ namespace util
             #endif
 
             // http://linux.die.net/man/2/recv
-            // recv ����0������socket�Զ˶Ͽ�
+            // recv 返回0，则是socket对端断开
             if (0 == iRet) {
                 Close();
             } else if (iRet < 0) {
                 int err = GetError();
-                // ��һ�ַ�����(Ч������д���֤)
+                // 另一种方案是(效果如何有待考证)
                 // #ifdef WIN32
                 // if (WSAEWOULDBLOCK != err)
                 // #else
@@ -254,7 +254,7 @@ namespace util
 
         int CompatSocket::Select(bool read, bool write, int iSecond, int iMicroSeconds)
         {
-            // Select����
+            // Select操作
             fd_set wset;
             if (write) {
                 FD_ZERO(&wset);
@@ -272,21 +272,18 @@ namespace util
             tm.tv_usec = iMicroSeconds;
 
             int iRet = select(m_uSock + 1, read ? &rset : NULL, write? &wset: NULL, NULL, &tm);
-            if (iRet == 0) // timeout
+            // timeout or error (timeout when iRet == 0)
+            if (iRet <= 0) 
             {
-			   return iRet;
+               return iRet;
             }
-			else if (iRet < 0) // error
-			{
-				return iRet;
-			}
 
             if (read && (!FD_ISSET(m_uSock, &rset)))
             {
                 iRet = 0;
             }
 
-            if (write && FD_ISSET(m_uSock, &wset))
+            if (write && (!FD_ISSET(m_uSock, &wset)))
             {
                 iRet = 0;
             }
