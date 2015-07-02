@@ -1,4 +1,4 @@
-#include <time.h>
+ï»¿#include <time.h>
 #include <iostream>
 #include <algorithm>
 
@@ -23,11 +23,11 @@ struct AttributeManagerValidSample
     {
         using namespace util::logic::detail;
 
-        /* ¹«Ê½£º×î´óÉúÃü = Á¦Á¿ * 2 + BLABLABLA */
+        /* å…¬å¼ï¼šæœ€å¤§ç”Ÿå‘½ = åŠ›é‡ * 2 + BLABLABLA */
         stFormulas[ESA_MAX_HP] = stFormulas[ESA_STRENTH] * 2 + _<mt>(ESA_BLABLAB);
-        /* ¹«Ê½£º¹¥»÷Á¦ = 100 * »ù´¡¹¥»÷ - Á¦Á¿ */
+        /* å…¬å¼ï¼šæ”»å‡»åŠ› = 100 * åŸºç¡€æ”»å‡» - åŠ›é‡ */
         stFormulas[ESA_UNKNOWN] = stFormulas[ESA_ATTACK] = 100 * _<mt>(ESA_BASIC_ATTACK) - _<mt>(ESA_STRENTH) + _<mt>(ESA_STRENTH) * _<mt>(ESA_BASIC_ATTACK);
-        /* ¹«Ê½£º»ù´¡¹¥»÷ = BLABLABLA / 5 */
+        /* å…¬å¼ï¼šåŸºç¡€æ”»å‡» = BLABLABLA / 5 */
         stFormulas[ESA_BASIC_ATTACK] = _<mt>(ESA_BLABLAB) / 5;
 
     }
@@ -42,20 +42,20 @@ struct AttributeManagerInvalidSample
     {
         using namespace util::logic::detail;
 
-        /* ¹«Ê½£º×î´óÉúÃü = 2 * Á¦Á¿ + BLABLABLA / »ù´¡¹¥»÷ */
+        /* å…¬å¼ï¼šæœ€å¤§ç”Ÿå‘½ = 2 * åŠ›é‡ + BLABLABLA / åŸºç¡€æ”»å‡» */
         stFormulas[ESA_MAX_HP] = 2 * stFormulas[ESA_STRENTH] + _<mt>(ESA_BLABLAB) / stFormulas[ESA_BASIC_ATTACK];
-        /* ¹«Ê½£ºESA_UNKNOWN = ¹¥»÷Á¦ = 100 * »ù´¡¹¥»÷ - Á¦Á¿ + Á¦Á¿ * »ù´¡¹¥»÷ */
+        /* å…¬å¼ï¼šESA_UNKNOWN = æ”»å‡»åŠ› = 100 * åŸºç¡€æ”»å‡» - åŠ›é‡ + åŠ›é‡ * åŸºç¡€æ”»å‡» */
         stFormulas[ESA_UNKNOWN] = stFormulas[ESA_ATTACK] = 100 * _<mt>(ESA_BASIC_ATTACK) - stFormulas[ESA_STRENTH] + stFormulas[ESA_STRENTH] * stFormulas[ESA_BASIC_ATTACK];
-        /* ¹«Ê½£º»ù´¡¹¥»÷ = BLABLABLA / 5 + ×î´óÉúÃü */
+        /* å…¬å¼ï¼šåŸºç¡€æ”»å‡» = BLABLABLA / 5 + æœ€å¤§ç”Ÿå‘½ */
         stFormulas[ESA_BASIC_ATTACK] = _<mt>(ESA_BLABLAB) / 5 + stFormulas[ESA_MAX_HP];
 
-        /* ¹«Ê½Ñ­»·£ºESA_BLABLAB = ESA_BLABLAB + ×î´óÉúÃü / 100 */
+        /* å…¬å¼å¾ªç¯ï¼šESA_BLABLAB = ESA_BLABLAB + æœ€å¤§ç”Ÿå‘½ / 100 */
         stFormulas[ESA_BLABLAB] = stFormulas[ESA_BLABLAB]() + stFormulas[ESA_MAX_HP] / 100;
 
-        /* ¹«Ê½Ñ­»·£ºÁ¦Á¿ = ×î´óÉúÃü / 10 - »ù´¡¹¥»÷ * ESA_BLABLAB */
+        /* å…¬å¼å¾ªç¯ï¼šåŠ›é‡ = æœ€å¤§ç”Ÿå‘½ / 10 - åŸºç¡€æ”»å‡» * ESA_BLABLAB */
         stFormulas[ESA_STRENTH] = _<mt>(ESA_MAX_HP) / 10 - stFormulas[ESA_BASIC_ATTACK] * stFormulas[ESA_BLABLAB];
 
-        /* ±¾À´ÊÇ²â´òÓ¡ËùÓĞ»·µÄ£¬µ«ÊÇÕâ¸ö¹ØÏµÊ½£¬ÎÒÔÎÁË¡£Ä¿²âÃ²ËÆËùÓĞµÄ»·¶¼ÕıÈ·Êä³öÁË */
+        /* æœ¬æ¥æ˜¯æµ‹æ‰“å°æ‰€æœ‰ç¯çš„ï¼Œä½†æ˜¯è¿™ä¸ªå…³ç³»å¼ï¼Œæˆ‘æ™•äº†ã€‚ç›®æµ‹è²Œä¼¼æ‰€æœ‰çš„ç¯éƒ½æ­£ç¡®è¾“å‡ºäº† */
     }
 };
 
@@ -63,70 +63,70 @@ struct AttributeManagerInvalidSample
 void _check_value()
 {
     AttributeManagerValidSample::mt foo;
-    // ³õÊ¼ÖÃ¿Õ
+    // åˆå§‹ç½®ç©º
     foo.Construct();
     foo[ESA_STRENTH] = 1000;
     foo[ESA_BLABLAB] = 512;
 
-    // ================== ÊıÁ¿¼ì²é ==================
-    // ¼ì²é±»ÒÀÀµ¹ØÏµ
+    // ================== æ•°é‡æ£€æŸ¥ ==================
+    // æ£€æŸ¥è¢«ä¾èµ–å…³ç³»
     AttributeManagerValidSample::mt::attr_attach_list_type stList;
 
-    // ÒÀÀµ ESA_STRENTH µÄÊôĞÔ
+    // ä¾èµ– ESA_STRENTH çš„å±æ€§
     foo[ESA_STRENTH].GetAttachedAttributes(stList, false);
     CASE_EXPECT_EQ((size_t)3, stList.size());
-    CASE_EXPECT_NE(stList.end(), std::find(stList.begin(), stList.end(), ESA_UNKNOWN));
-    CASE_EXPECT_NE(stList.end(), std::find(stList.begin(), stList.end(), ESA_ATTACK));
-    CASE_EXPECT_NE(stList.end(), std::find(stList.begin(), stList.end(), ESA_MAX_HP));
+    CASE_EXPECT_FALSE(stList.end() == std::find(stList.begin(), stList.end(), ESA_UNKNOWN));
+    CASE_EXPECT_FALSE(stList.end() == std::find(stList.begin(), stList.end(), ESA_ATTACK));
+    CASE_EXPECT_FALSE(stList.end() == std::find(stList.begin(), stList.end(), ESA_MAX_HP));
 
-    // ÒÀÀµ ESA_BLABLAB µÄÊôĞÔ
+    // ä¾èµ– ESA_BLABLAB çš„å±æ€§
     stList.clear();
     foo[ESA_BLABLAB].GetAttachedAttributes(stList, false);
     CASE_EXPECT_EQ((size_t)2, stList.size());
-    CASE_EXPECT_NE(stList.end(), std::find(stList.begin(), stList.end(), ESA_BASIC_ATTACK));
-    CASE_EXPECT_NE(stList.end(), std::find(stList.begin(), stList.end(), ESA_MAX_HP));
+    CASE_EXPECT_FALSE(stList.end() == std::find(stList.begin(), stList.end(), ESA_BASIC_ATTACK));
+    CASE_EXPECT_FALSE(stList.end() == std::find(stList.begin(), stList.end(), ESA_MAX_HP));
 
-    // ÒÀÀµ ESA_BLABLAB µÄÊôĞÔ - Recursion
+    // ä¾èµ– ESA_BLABLAB çš„å±æ€§ - Recursion
     stList.clear();
     foo[ESA_BLABLAB].GetAttachedAttributes(stList, true);
     CASE_EXPECT_EQ((size_t)4, stList.size());
-    CASE_EXPECT_NE(stList.end(), std::find(stList.begin(), stList.end(), ESA_UNKNOWN));
-    CASE_EXPECT_NE(stList.end(), std::find(stList.begin(), stList.end(), ESA_BASIC_ATTACK));
-    CASE_EXPECT_NE(stList.end(), std::find(stList.begin(), stList.end(), ESA_ATTACK));
-    CASE_EXPECT_NE(stList.end(), std::find(stList.begin(), stList.end(), ESA_MAX_HP));
+    CASE_EXPECT_FALSE(stList.end() == std::find(stList.begin(), stList.end(), ESA_UNKNOWN));
+    CASE_EXPECT_FALSE(stList.end() == std::find(stList.begin(), stList.end(), ESA_BASIC_ATTACK));
+    CASE_EXPECT_FALSE(stList.end() == std::find(stList.begin(), stList.end(), ESA_ATTACK));
+    CASE_EXPECT_FALSE(stList.end() == std::find(stList.begin(), stList.end(), ESA_MAX_HP));
 
-    // ÒÀÀµ ESA_ATTACK µÄÊôĞÔ
+    // ä¾èµ– ESA_ATTACK çš„å±æ€§
     stList.clear();
     foo[ESA_ATTACK].GetAttachedAttributes(stList, true);
     CASE_EXPECT_EQ((size_t)0, stList.size());
 
-    // ÒÀÀµ ESA_UNKNOWN µÄÊôĞÔ
+    // ä¾èµ– ESA_UNKNOWN çš„å±æ€§
     stList.clear();
     foo[ESA_UNKNOWN].GetAttachedAttributes(stList, true);
     CASE_EXPECT_EQ((size_t)0, stList.size());
 
-    // ¼ì²é²ÎÊı±í
+    // æ£€æŸ¥å‚æ•°è¡¨
     AttributeManagerValidSample::mt::attr_attach_set_type stSet;
 
-    // ESA_STRENTH µÄ¹ØÁª²ÎÊı
+    // ESA_STRENTH çš„å…³è”å‚æ•°
     foo[ESA_STRENTH].GetAttachAttributes(stSet, true);
     CASE_EXPECT_EQ((size_t)0, stSet.size());
 
-    // ESA_MAX_HP µÄ¹ØÁª²ÎÊı
+    // ESA_MAX_HP çš„å…³è”å‚æ•°
     stSet.clear();
     foo[ESA_MAX_HP].GetAttachAttributes(stSet, true);
     CASE_EXPECT_EQ((size_t)2, stSet.size());
     CASE_EXPECT_TRUE(stSet.find(ESA_STRENTH) != stSet.end());
     CASE_EXPECT_TRUE(stSet.find(ESA_BLABLAB) != stSet.end());
 
-    // ESA_ATTACK µÄ¹ØÁª²ÎÊı
+    // ESA_ATTACK çš„å…³è”å‚æ•°
     stSet.clear();
     foo[ESA_ATTACK].GetAttachAttributes(stSet, false);
     CASE_EXPECT_EQ((size_t)2, stSet.size());
     CASE_EXPECT_TRUE(stSet.find(ESA_STRENTH) != stSet.end());
     CASE_EXPECT_TRUE(stSet.find(ESA_BASIC_ATTACK) != stSet.end());
 
-    // ESA_ATTACK µÄ¹ØÁª²ÎÊı - Recursion
+    // ESA_ATTACK çš„å…³è”å‚æ•° - Recursion
     stSet.clear();
     foo[ESA_ATTACK].GetAttachAttributes(stSet, true);
     CASE_EXPECT_EQ((size_t)3, stSet.size());
@@ -135,7 +135,7 @@ void _check_value()
     CASE_EXPECT_TRUE(stSet.find(ESA_BASIC_ATTACK) != stSet.end());
 
 
-    // ================== ÖµÑéÖ¤ ==================
+    // ================== å€¼éªŒè¯ ==================
     CASE_EXPECT_EQ(foo[ESA_UNKNOWN], foo[ESA_ATTACK]);
     CASE_EXPECT_EQ(1000, foo[ESA_STRENTH]);
     CASE_EXPECT_EQ(512, foo[ESA_BLABLAB]);

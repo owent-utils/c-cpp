@@ -12,7 +12,7 @@ if (GTEST_FOUND)
     include_directories(${GTEST_INCLUDE_DIRS})
 
 # =========== enable find boost.test ===========
-else()
+elseif(ENABLE_BOOST_UNIT_TEST)
     
     find_package(Boost COMPONENTS unit_test_framework)
     set(Boost_AUTO_LIBS "${Boost_LIBRARIES}")
