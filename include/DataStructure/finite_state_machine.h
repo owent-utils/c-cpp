@@ -1,4 +1,4 @@
-﻿/**  
+﻿/**
  * @brief 有限状态机
  *
  * @version 1.0
@@ -15,7 +15,7 @@
 
 namespace util {
     namespace ds {
-        
+
         /**
          * 有限状态机
          * @brief 必须有0状态
@@ -44,6 +44,10 @@ namespace util {
 
             bool set_state(key_type t, TParams... params) {
                 return switch_to(t, params...);
+            }
+
+            bool test(key_type t) const {
+                return test_switch_to(t);
             }
 
             bool empty() const {
@@ -146,6 +150,26 @@ namespace util {
             }
 
         private:
+            bool test_switch_to(key_type t) const {
+                if (!pairs_listener_) {
+                    return false;
+                }
+
+                auto iter_from = pairs_listener_->find(state_);
+
+                if (pairs_listener_->end() == iter_from) {
+                    return false;
+                }
+
+                auto iter_to = iter_from->second.find(t);
+
+                if (iter_from->second.end() == iter_to) {
+                    return false;
+                }
+
+                return true;
+            }
+
             bool switch_to(key_type t, TParams... params) {
                 if (!pairs_listener_) {
                     return false;

@@ -15,7 +15,7 @@ namespace util
 
     namespace socket
     {
-    
+
         CompatSocket::CompatSocket(SOCKET sock)
         {
             m_uSock = sock;
@@ -37,18 +37,18 @@ namespace util
             /*
             http://msdn.microsoft.com/zh-cn/vstudio/ms741563(en-us,VS.85).aspx
 
-            typedef struct WSAData { 
+            typedef struct WSAData {
                 WORD wVersion;                                //winsock version
                 WORD wHighVersion;                            //The highest version of the Windows Sockets specification that the Ws2_32.dll can support
-                char szDescription[WSADESCRIPTION_LEN+1]; 
-                char szSystemStatus[WSASYSSTATUS_LEN+1]; 
-                unsigned short iMaxSockets; 
-                unsigned short iMaxUdpDg; 
-                char FAR * lpVendorInfo; 
-            }WSADATA, *LPWSADATA; 
+                char szDescription[WSADESCRIPTION_LEN+1];
+                char szSystemStatus[WSASYSSTATUS_LEN+1];
+                unsigned short iMaxSockets;
+                unsigned short iMaxUdpDg;
+                char FAR * lpVendorInfo;
+            }WSADATA, *LPWSADATA;
             */
             WSADATA wsaData;
-            //#define MAKEWORD(a,b) ((WORD) (((BYTE) (a)) | ((WORD) ((BYTE) (b))) << 8)) 
+            //#define MAKEWORD(a,b) ((WORD) (((BYTE) (a)) | ((WORD) ((BYTE) (b))) << 8))
             WORD version = MAKEWORD(2, 0);
             ret = WSAStartup(version, &wsaData);//win sock start up
             if ( ret ) {
@@ -118,7 +118,7 @@ namespace util
             svraddr.sin_port = htons(port);
 
             int opt =  1;
-            if ( setsockopt(m_uSock, SOL_SOCKET, SO_REUSEADDR, (char*)&opt, sizeof(opt)) < 0 ) 
+            if ( setsockopt(m_uSock, SOL_SOCKET, SO_REUSEADDR, (char*)&opt, sizeof(opt)) < 0 )
                 return false;
 
             int ret = bind(m_uSock, (struct sockaddr*)&svraddr, sizeof(svraddr));
@@ -175,7 +175,7 @@ namespace util
 
         int CompatSocket::Send(const char* buf, int len)
         {
-            //非阻塞send 
+            //非阻塞send
             int iRet = 0;
 
             #ifdef WIN32
@@ -183,7 +183,7 @@ namespace util
             #else
             iRet = send(m_uSock, buf, static_cast<size_t>(len), 0);
             #endif
-            
+
             if (iRet < 0) {
                 int err = GetError();
                 // 另一种方案是(效果如何有待考证)
@@ -192,7 +192,7 @@ namespace util
                 // #else
                 // if (EINPROGRESS != err && EAGAIN != err)
                 // #endif
-                
+
                 if (EBADF == err || ENOTSOCK == err) {
                     m_uSock = INVALID_SOCKET;
                 } else {
@@ -213,7 +213,7 @@ namespace util
 
         int CompatSocket::Recv(char* buf, int len)
         {
-            //非阻塞 recv 
+            //非阻塞 recv
             int iRet = 0;
             #ifdef WIN32
             iRet = recv(m_uSock, buf, len, 0);
@@ -273,7 +273,7 @@ namespace util
 
             int iRet = select(m_uSock + 1, read ? &rset : NULL, write? &wset: NULL, NULL, &tm);
             // timeout or error (timeout when iRet == 0)
-            if (iRet <= 0) 
+            if (iRet <= 0)
             {
                return iRet;
             }
@@ -342,9 +342,9 @@ namespace util
 #endif
         }
 
-        void CompatSocket::SetNoDelay(bool no_delay) {
-            int val = no_delay ? 1 : 0;
+        void CompatSocket::SetNoDelay(bool no_delay) {    
 #ifdef TCP_NODELAY
+            int val = no_delay ? 1 : 0;
             SetOption(TCP_NODELAY, &val, sizeof(val));
 #else
             // SetOption(TCP_NODELAY, &val, sizeof(val));
@@ -361,7 +361,7 @@ namespace util
             if (IsValid())
             {
                 rt = 0;
-#if defined(WIN32)  
+#if defined(WIN32)
                 if (lingertimeout > -1)
                 {
                     struct linger  lin;
@@ -398,7 +398,7 @@ namespace util
                     timeout.tv_usec = (sendtimeout % 1000) * 1000;
                     rt = rt | (setsockopt(m_uSock, SOL_SOCKET, SO_SNDTIMEO, &timeout, sizeof(timeout)) == 0 ? 0 : 0x4);
                 }
-#endif  
+#endif
             }
 
             return rt;
