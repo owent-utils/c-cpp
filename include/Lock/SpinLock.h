@@ -34,7 +34,7 @@
 #elif defined(_MSC_VER) && (_MSC_VER >= 1700) && defined(_HAS_CPP0X) && _HAS_CPP0X
     #include <atomic>
     #define __UTIL_LOCK_SPINLOCK_ATOMIC_STD
-#elif defined(__GNUC__) && __GNUC__ >= 4 && __GNUC_MINOR__ >= 5 && (__cplusplus >= 201103L || defined(__GXX_EXPERIMENTAL_CXX0X__))
+#elif defined(__GNUC__) && ((__GNUC__ == 4 && __GNUC_MINOR__ >= 5) || __GNUC__ > 4) && (__cplusplus >= 201103L || defined(__GXX_EXPERIMENTAL_CXX0X__))
     #include <atomic>
     #define __UTIL_LOCK_SPINLOCK_ATOMIC_STD
 #endif
@@ -264,7 +264,7 @@ namespace util
             #ifdef __UTIL_LOCK_SPINLOCK_ATOMIC_MSVC
                 return InterlockedExchangeAdd(&m_enStatus, 0) == Locked;
             #elif defined(__UTIL_LOCK_SPINLOCK_ATOMIC_GCC_ATOMIC)
-                __atomic_load_n(&m_enStatus, __ATOMIC_ACQUIRE) == Locked;
+                return __atomic_load_n(&m_enStatus, __ATOMIC_ACQUIRE) == Locked;
             #else
                 return __sync_add_and_fetch(&m_enStatus, 0) == Locked;
             #endif

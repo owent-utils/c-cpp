@@ -43,7 +43,7 @@
 #elif defined(__clang__) && __clang_major__ >= 3 && (__cplusplus >= 201103L || !defined(_LIBCPP_HAS_NO_VARIADICS))
     // 采用Clang c++11库
     #include <functional>
-#elif defined(__GNUC__) && __GNUC__ >= 4 && __GNUC_MINOR__ >= 3
+#elif defined(__GNUC__) && ((__GNUC__ == 4 && __GNUC_MINOR__ >= 3) || __GNUC__ > 4)
     // 采用GCC c++11库
     #if __cplusplus >= 201103L || defined(__GXX_EXPERIMENTAL_CXX0X__)
         #include <functional>
