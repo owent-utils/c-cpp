@@ -20,7 +20,7 @@ static bool dynamic_idx_list_helper_count_func(int, dynamic_idx_list_helper_clas
 
 struct dynamic_idx_list_helper_class_func_obj
 {
-    bool operator()(int, const dynamic_idx_list_helper_class& obj)
+    bool operator()(int, const dynamic_idx_list_helper_class& obj) const
     {
         return obj.m == 20;
     }
@@ -127,7 +127,8 @@ CASE_TEST(DynamicIdxListTest, EdgeCondition)
     typedef util::ds::DynamicIdxList<int> core_type;
     core_type stList;
 
-    core_type::size_type idx1 = stList.Create(4);
+    core_type::size_type idx1;
+    stList.Create(4);
     stList.Create(1);
     stList.Create(2);
     core_type::size_type idx4 = stList.Create(3);
@@ -145,7 +146,7 @@ CASE_TEST(DynamicIdxListTest, EdgeCondition)
     // 只有两个元素（左右边界）
     util::ds::DynamicIdxList<int> stEle;
 
-    idx1 = stEle.Create(7);
+    stEle.Create(7);
     stEle.Create(8);
     stEle.Remove(0);
 

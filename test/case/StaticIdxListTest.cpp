@@ -1,4 +1,4 @@
-
+ï»¿
 #include "frame/test_macros.h"
 #include "DataStructure/StaticIdxList.h"
 
@@ -17,7 +17,7 @@ static bool static_idx_list_helper_count_func(size_t, static_idx_list_helper_cla
 
 struct static_idx_list_helper_class_func_obj
 {
-    bool operator()(size_t, const static_idx_list_helper_class& obj)
+    bool operator()(size_t, const static_idx_list_helper_class& obj) const
     {
         return obj.m == 20;
     }
@@ -150,12 +150,13 @@ CASE_TEST(StaticIdxListTest, EdgeCondition)
     core_type stList;
     stList.construct();
 
-    size_type idx1 = stList.Create(4);
+    size_type idx1;
+    stList.Create(4);
     stList.Create(1);
     stList.Create(2);
     size_type idx4 = stList.Create(3);
 
-    // ¶à´ÎÉ¾³ıºÍ´´½¨
+    // å¤šæ¬¡åˆ é™¤å’Œåˆ›å»º
     stList.Remove(idx4);
     idx4 = stList.Create(5);
     stList.Remove(idx4);
@@ -164,11 +165,11 @@ CASE_TEST(StaticIdxListTest, EdgeCondition)
     CASE_EXPECT_EQ((size_type)4, stList.Count());
     CASE_EXPECT_EQ(6, *stList.Get(idx4));
 
-    // Ö»ÓĞÒ»¸öÔªËØ£¨×óÓÒ¶¼ÊÇ±ß½ç£©
+    // åªæœ‰ä¸€ä¸ªå…ƒç´ ï¼ˆå·¦å³éƒ½æ˜¯è¾¹ç•Œï¼‰
     util::ds::StaticIdxList<int, 1> stEle;
     stEle.construct();
 
-    idx1 = stEle.Create(7);
+    stEle.Create(7);
     stEle.Create(8);
     stEle.Remove(0);
 
@@ -184,7 +185,7 @@ CASE_TEST(StaticIdxListTest, EdgeCondition)
     idx1 = stEle.Create(9);
     CASE_EXPECT_EQ((size_type)0, idx1);
 
-    // destructºó´´½¨
+    // destructååˆ›å»º
     stList.Remove(0);
     idx1 = stList.begin().index();
     CASE_EXPECT_NE((size_type)0, idx1);
@@ -194,7 +195,7 @@ CASE_TEST(StaticIdxListTest, EdgeCondition)
 
     CASE_EXPECT_EQ(static_cast<size_type>(0), idx4);
 
-    // ¹²ÏíÄÚ´æ»Ö¸´²âÊÔ
+    // å…±äº«å†…å­˜æ¢å¤æµ‹è¯•
     char pData[sizeof(core_type)];
     core_type* pListOri = new (pData)core_type();
     pListOri->construct();
