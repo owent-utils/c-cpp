@@ -19,6 +19,7 @@
 
 #include <string>
 #include <vector>
+#include <list>
 #include <climits>
 #include <cstdio>
 
@@ -52,6 +53,22 @@ namespace util {
             260;
 #endif
 
+        struct dir_opt_t {
+            enum type {
+                EN_DOT_ABSP     = 0x0001,       // 转换为绝对路径
+                EN_DOT_SELF     = 0x0002,       // 包含.和..
+                EN_DOT_RLNK     = 0x0004,       // 解析符号链接
+                EN_DOT_RECU     = 0x0010,       // 对目录递归扫描而不是列举出出目录名
+
+                EN_DOT_TDIR     = 0x0100,       // 包含目录
+                EN_DOT_TREG     = 0x0200,       // 包含文件
+                EN_DOT_TLNK     = 0x0400,       // 包含符号链接
+                EN_DOT_TSOCK    = 0x0800,       // 包含Unix Sock
+                EN_DOT_TOTH     = 0x1000,       // 其他类型
+
+                EN_DOT_DAFAULT  = 0xFF00,       // 默认规则
+            };
+        };
     public:
         /**
          * @brief 获取文件内容
@@ -126,6 +143,21 @@ namespace util {
          * @return 临时文件路径
          */
         static std::string GenerateTmpFilePath();
+
+        /**
+         * @brief 列举目录下所有文件
+         * @param dir_path 目录路径
+         * @param out 录下所有文件路径
+         * @return 成功返回0，错误返回错误码(不同平台错误码不同)
+         */
+        static int ScanDir(const char* dir_path, std::list<std::string>& out, int options = dir_opt_t::EN_DOT_DAFAULT);
+
+        /**
+         * @brief 判断是否是绝对路径
+         * @param dir_path 目录路径
+         * @return 是绝对路径返回true
+         */
+        static bool IsAbsPath(const char* dir_path);
     };
 }
 
