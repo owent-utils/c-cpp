@@ -27,7 +27,6 @@
 
 #include <dirent.h>
 #include <sys/types.h>
-#include <sys/dir.h>
 #include <sys/errno.h>
 
 #define FUNC_ACCESS(x) access(x, F_OK)
