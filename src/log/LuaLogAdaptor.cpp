@@ -11,17 +11,17 @@ static int lua_log_adaptor_fn_lua_log(lua_State *L) {
         return 0;
     }
 
-    // TODO log 分类
-    // LogWrapperMgr::categorize_t::type cat = static_cast<LogWrapperMgr::categorize_t::type>(luaL_checkinteger(L, 1));
+    // log 分类
+    uint32_t cat = static_cast<uint32_t>(luaL_checkinteger(L, 1));
 
-    LogWrapper::level_t::type level = static_cast<LogWrapper::level_t::type>(luaL_checkinteger(L, 2));
+    util::log::LogWrapper::level_t::type level = WLOG_LEVELID(luaL_checkinteger(L, 2));
 
-    LogWrapper* ptr = LogWrapper::Instance();
-    if (ptr && ptr->check(level)) {
+    util::log::LogWrapper* logger = WDTLOGGETCAT(cat);
+    if (NULL != logger && logger->check(level)) {
         for (int i = 3; i <= top; ++i) {
             const char* content = lua_tostring(L, i);
-            if (NULL != content && ptr) {
-                ptr->log(level, "Lua", NULL, 0, NULL, "%s",content);
+            if (NULL != content) {
+                logger->log(level, "Lua", NULL, 0, NULL, "%s",content);
             }
         }
     }
@@ -36,25 +36,25 @@ extern "C" {
     int LuaLogAdaptor_openLib(lua_State *L) {
         lua_newtable(L);
 
-        lua_pushinteger(L, static_cast<lua_Integer>(LogWrapper::level_t::LOG_LW_DISABLED));
+        lua_pushinteger(L, static_cast<lua_Integer>(util::log::LogWrapper::level_t::LOG_LW_DISABLED));
         lua_setfield(L, -2, "DISABLED");
 
-        lua_pushinteger(L, static_cast<lua_Integer>(LogWrapper::level_t::LOG_LW_FATAL));
+        lua_pushinteger(L, static_cast<lua_Integer>(util::log::LogWrapper::level_t::LOG_LW_FATAL));
         lua_setfield(L, -2, "FATAL");
 
-        lua_pushinteger(L, static_cast<lua_Integer>(LogWrapper::level_t::LOG_LW_ERROR));
+        lua_pushinteger(L, static_cast<lua_Integer>(util::log::LogWrapper::level_t::LOG_LW_ERROR));
         lua_setfield(L, -2, "ERROR");
 
-        lua_pushinteger(L, static_cast<lua_Integer>(LogWrapper::level_t::LOG_LW_WARNING));
+        lua_pushinteger(L, static_cast<lua_Integer>(util::log::LogWrapper::level_t::LOG_LW_WARNING));
         lua_setfield(L, -2, "WARNING");
 
-        lua_pushinteger(L, static_cast<lua_Integer>(LogWrapper::level_t::LOG_LW_INFO));
+        lua_pushinteger(L, static_cast<lua_Integer>(util::log::LogWrapper::level_t::LOG_LW_INFO));
         lua_setfield(L, -2, "INFO");
 
-        lua_pushinteger(L, static_cast<lua_Integer>(LogWrapper::level_t::LOG_LW_NOTICE));
+        lua_pushinteger(L, static_cast<lua_Integer>(util::log::LogWrapper::level_t::LOG_LW_NOTICE));
         lua_setfield(L, -2, "NOTICE"); 
 
-        lua_pushinteger(L, static_cast<lua_Integer>(LogWrapper::level_t::LOG_LW_DEBUG));
+        lua_pushinteger(L, static_cast<lua_Integer>(util::log::LogWrapper::level_t::LOG_LW_DEBUG));
         lua_setfield(L, -2, "DEBUG");
 
         lua_setglobal(L, "lua_log_level_t");

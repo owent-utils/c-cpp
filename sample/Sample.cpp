@@ -5,10 +5,29 @@
 #include <cstring>
 #include <iostream>
 
+#include "log/LogWrapper.h"
+
 #include "String/TQueryString.h"
 #include "Logic/AttributeManager.h"
 #include "Random/RandomGenerator.h"
 #include "Algorithm/Hash.h"
+
+//=======================================================================================================
+void LogSample()
+{
+    puts("");
+    puts("===============begin log sample==============");
+
+    WLOG_INIT(util::log::LogWrapper::categorize_t::DEFAULT , util::log::LogWrapper::level_t::LOG_LW_DEBUG);
+
+    PSTDERROR("try to print error log.\n");
+
+    WLOGNOTICE("notice log %d", 0);
+
+    puts("===============end log sample==============");
+}
+
+//=======================================================================================================
 
 //=======================================================================================================
 void RandomSample()
@@ -260,5 +279,6 @@ int main(int argc, char** argv)
     TQueryStringSample();
     AttributeManagerSample();
     HashSample();
+    LogSample();
     return 0;
 }
