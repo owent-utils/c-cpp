@@ -36,7 +36,7 @@
 */
  
 // VC10.0 SP1以上分支判断
-#if (defined(_MSC_VER) &&  _MSC_VER >= 1600 && defined(_HAS_CPP0X) && _HAS_CPP0X) || (defined(__GNUC__) && (__cplusplus >= 201103L || defined(__GXX_EXPERIMENTAL_CXX0X__)) && (__GNUC__ > 4 || ( __GNUC__ == 4 &&  __GNUC_MINOR__ >= 3 ) ) )
+#if (defined(__cplusplus) && __cplusplus >= 201103L) || (defined(_MSC_VER) &&  _MSC_VER >= 1600 && defined(_HAS_CPP0X) && _HAS_CPP0X) || (defined(__GNUC__) && defined(__GXX_EXPERIMENTAL_CXX0X__) && (__GNUC__ > 4 || ( __GNUC__ == 4 &&  __GNUC_MINOR__ >= 3 ) ) )
     #define STD_STATIC_ASSERT(exp) static_assert(exp, #exp)
     #define STD_STATIC_ASSERT_MSG(exp, msg) static_assert(exp, msg)
 
