@@ -110,8 +110,8 @@
 #if defined(__UTIL_LOCK_SPINLOCK_ATOMIC_STD)
     #include <thread>
     #include <chrono>
-    #define __UTIL_LOCK_SPIN_LOCK_THREAD_YIELD() std::this_thread::yield()
-    #define __UTIL_LOCK_SPIN_LOCK_THREAD_SLEEP() std::this_thread::sleep_for(std::chrono::milliseconds(1))
+    #define __UTIL_LOCK_SPIN_LOCK_THREAD_YIELD() ::std::this_thread::yield()
+    #define __UTIL_LOCK_SPIN_LOCK_THREAD_SLEEP() ::std::this_thread::sleep_for(::std::chrono::milliseconds(1))
 #elif defined(_MSC_VER)
     #define __UTIL_LOCK_SPIN_LOCK_THREAD_YIELD() Sleep(0)
     #define __UTIL_LOCK_SPIN_LOCK_THREAD_SLEEP() Sleep(1)
@@ -156,38 +156,38 @@ namespace util
         {
         private:
           typedef enum {Unlocked = 0, Locked = 1} LockState;
-          std::atomic_uint m_enStatus;
+          ::std::atomic_uint m_enStatus;
 
         public:
           SpinLock() {
-			  m_enStatus.store(Unlocked);
-		  }
+              m_enStatus.store(Unlocked);
+          }
 
           void Lock()
           {
               unsigned char try_times = 0;
-              while (m_enStatus.exchange(static_cast<unsigned int>(Locked), std::memory_order_acq_rel) == Locked)
+              while (m_enStatus.exchange(static_cast<unsigned int>(Locked), ::std::memory_order_acq_rel) == Locked)
                   __UTIL_LOCK_SPIN_LOCK_WAIT(try_times ++); /* busy-wait */
           }
 
           void Unlock()
           {
-              m_enStatus.store(static_cast<unsigned int>(Unlocked), std::memory_order_release);
+              m_enStatus.store(static_cast<unsigned int>(Unlocked), ::std::memory_order_release);
           }
 
           bool IsLocked()
           {
-              return m_enStatus.load(std::memory_order_acquire) == Locked;
+              return m_enStatus.load(::std::memory_order_acquire) == Locked;
           }
 
           bool TryLock()
           {
-              return m_enStatus.exchange(static_cast<unsigned int>(Locked), std::memory_order_acq_rel) == Unlocked;
+              return m_enStatus.exchange(static_cast<unsigned int>(Locked), ::std::memory_order_acq_rel) == Unlocked;
           }
           
           bool TryUnlock()
           {
-              return m_enStatus.exchange(static_cast<unsigned int>(Unlocked), std::memory_order_acq_rel) == Locked;
+              return m_enStatus.exchange(static_cast<unsigned int>(Unlocked), ::std::memory_order_acq_rel) == Locked;
           }
 
         };
