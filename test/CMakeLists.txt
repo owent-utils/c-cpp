@@ -1,4 +1,4 @@
-include("${CMAKE_CURRENT_LIST_DIR}/test.macro.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/test.utils-macro.cmake")
 # import gtest
 
 enable_testing()
