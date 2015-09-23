@@ -17,3 +17,4 @@ OWenT’s Utils -- C&CPP
 ##### CMakeLists.txt 仅针对GCC编写(特别是编译选项部分), VC的话包含include文件夹，添加src下的所有文件即可 (* ^ _ ^ *)
 ###### 注: MSYS下，生成gtest不正常，所以单元测试无法生成，Cygwin下正常
 
+**注：某些特定分类的算法记录和说明在include/[特定分类名称]目录的README.md中**
