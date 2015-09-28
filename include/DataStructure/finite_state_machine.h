@@ -190,7 +190,7 @@ namespace util {
                 typename listener_set_type::iterator iter_single;
                 // 先触发离场状态回调
                 if (leave_from_listener_) {
-                    iter_single = leave_from_listener_->find(t);
+                    iter_single = leave_from_listener_->find(state_);
                     if (leave_from_listener_->end() != iter_single) {
                         for (value_type& fn : iter_single->second) {
                             fn(state_, t, params...);
