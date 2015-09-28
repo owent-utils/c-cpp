@@ -261,10 +261,10 @@ namespace util
 
             private:
                 template<typename TMI>
-                static inline TMI unwrapper(const mixed_int<TMI>& x) { return mixed_int<TMI>::decode(x.data_); }
+                static inline value_type unwrapper(const mixed_int<TMI>& x) { return mixed_int<TMI>::decode(x.data_); }
 
                 template<typename TI>
-                static inline TI unwrapper(const TI& x) { return x; }
+                static inline value_type unwrapper(const TI& x) { return static_cast<value_type>(x); }
 
                 value_type data_;
             };
