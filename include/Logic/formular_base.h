@@ -466,7 +466,7 @@ namespace util
                         }
 
                         // 结算低优先级运算符
-                        while ('(' != opr_stack.top()[0] && om[static_cast<int>(v[0])] <= om[static_cast<int>(opr_stack.top()[0])]) {
+                        while (!opr_stack.empty() && '(' != opr_stack.top()[0] && om[static_cast<int>(v[0])] <= om[static_cast<int>(opr_stack.top()[0])]) {
                             generate_stack_call<TVal, TC, TFn>(caller_stack, opr_stack);
                         }
                         opr_stack.push(v);
