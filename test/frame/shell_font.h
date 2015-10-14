@@ -49,7 +49,7 @@
 //47  设置白色背景
 //49  设置缺省黑色背景
 
-struct ShekkFontStyle {
+struct ShellFontStyle {
 
     enum ShellFontSpec
     {
@@ -179,17 +179,17 @@ public:
             return (*this);
         }
 
-        const shell_stream_opr& operator<<(ShekkFontStyle::ShellFontSpec style) const {
+        const shell_stream_opr& operator<<(ShellFontStyle::ShellFontSpec style) const {
             open(style);
             return (*this);
         }
 
-        const shell_stream_opr& operator<<(ShekkFontStyle::ShellFontColor style) const {
+        const shell_stream_opr& operator<<(ShellFontStyle::ShellFontColor style) const {
             open(style);
             return (*this);
         }
 
-        const shell_stream_opr& operator<<(ShekkFontStyle::ShellFontBackgroundColor style) const {
+        const shell_stream_opr& operator<<(ShellFontStyle::ShellFontBackgroundColor style) const {
             open(style);
             return (*this);
         }

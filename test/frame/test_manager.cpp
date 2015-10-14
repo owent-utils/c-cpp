@@ -62,20 +62,20 @@ int test_manager::run() {
 
     clock_t all_begin_time = clock();
     shell_stream ss(std::cout);
-    ss() << ShekkFontStyle::SHELL_FONT_COLOR_GREEN << ShekkFontStyle::SHELL_FONT_SPEC_BOLD <<
-        "[==========] " << ShekkFontStyle::SHELL_FONT_SPEC_NULL << 
+    ss() << ShellFontStyle::SHELL_FONT_COLOR_GREEN << ShellFontStyle::SHELL_FONT_SPEC_BOLD <<
+        "[==========] " << ShellFontStyle::SHELL_FONT_SPEC_NULL << 
         "Running " << tests_.size() << " test(s)" <<
         std::endl;
 
     for(test_data_type::iterator iter = tests_.begin(); iter != tests_.end(); ++ iter) {
-        ss() << std::endl << ShekkFontStyle::SHELL_FONT_COLOR_GREEN << ShekkFontStyle::SHELL_FONT_SPEC_BOLD <<
-            "[----------] " << ShekkFontStyle::SHELL_FONT_SPEC_NULL << iter->second.size() << " test case(s) from " << iter->first <<
+        ss() << std::endl << ShellFontStyle::SHELL_FONT_COLOR_GREEN << ShellFontStyle::SHELL_FONT_SPEC_BOLD <<
+            "[----------] " << ShellFontStyle::SHELL_FONT_SPEC_NULL << iter->second.size() << " test case(s) from " << iter->first <<
             std::endl;
 
         clock_t test_begin_time = clock();
         for (test_type::iterator iter2 = iter->second.begin(); iter2 != iter->second.end(); ++ iter2) {
-            ss() << ShekkFontStyle::SHELL_FONT_COLOR_GREEN << 
-                "[ RUN      ] " << ShekkFontStyle::SHELL_FONT_SPEC_NULL <<
+            ss() << ShellFontStyle::SHELL_FONT_COLOR_GREEN << 
+                "[ RUN      ] " << ShellFontStyle::SHELL_FONT_SPEC_NULL <<
                 iter->first << "." << iter2->first << std::endl;
 
             clock_t case_begin_time = clock();
@@ -84,49 +84,49 @@ int test_manager::run() {
 
             if (0 == iter2->second->failed_) {
                 ++ success_;
-                ss() << ShekkFontStyle::SHELL_FONT_COLOR_GREEN<< 
-                    "[       OK ] " << ShekkFontStyle::SHELL_FONT_SPEC_NULL <<
+                ss() << ShellFontStyle::SHELL_FONT_COLOR_GREEN<< 
+                    "[       OK ] " << ShellFontStyle::SHELL_FONT_SPEC_NULL <<
                     iter->first << "." << iter2->first << " (" << get_expire_time(case_begin_time, case_end_time) << ")" <<
                     std::endl;
             } else {
                 ++ failed_;
-                ss() << ShekkFontStyle::SHELL_FONT_COLOR_RED<<
-                    "[  FAILED  ] " << ShekkFontStyle::SHELL_FONT_SPEC_NULL<<
+                ss() << ShellFontStyle::SHELL_FONT_COLOR_RED<<
+                    "[  FAILED  ] " << ShellFontStyle::SHELL_FONT_SPEC_NULL<<
                     iter->first << "." << iter2->first << " (" << get_expire_time(case_begin_time, case_end_time) << ")" <<
                     std::endl;
             }
         }
 
         clock_t test_end_time = clock();
-        ss() << ShekkFontStyle::SHELL_FONT_COLOR_GREEN << ShekkFontStyle::SHELL_FONT_SPEC_BOLD<<
-            "[----------] " << ShekkFontStyle::SHELL_FONT_SPEC_NULL <<
+        ss() << ShellFontStyle::SHELL_FONT_COLOR_GREEN << ShellFontStyle::SHELL_FONT_SPEC_BOLD<<
+            "[----------] " << ShellFontStyle::SHELL_FONT_SPEC_NULL <<
             iter->second.size() << " test case(s) from " << iter->first << " (" << get_expire_time(test_begin_time, test_end_time) << " total)" <<
             std::endl;
 
     }
 
     clock_t all_end_time = clock();
-    ss() << ShekkFontStyle::SHELL_FONT_COLOR_GREEN << ShekkFontStyle::SHELL_FONT_SPEC_BOLD <<
-        "[==========] " << ShekkFontStyle::SHELL_FONT_SPEC_NULL <<
+    ss() << ShellFontStyle::SHELL_FONT_COLOR_GREEN << ShellFontStyle::SHELL_FONT_SPEC_BOLD <<
+        "[==========] " << ShellFontStyle::SHELL_FONT_SPEC_NULL <<
         tests_.size() << " test(s) ran." << " (" << get_expire_time(all_begin_time, all_end_time) << " total)" <<
         std::endl;
 
-    ss() << ShekkFontStyle::SHELL_FONT_COLOR_GREEN << 
-        "[  PASSED  ] " << ShekkFontStyle::SHELL_FONT_SPEC_NULL <<
+    ss() << ShellFontStyle::SHELL_FONT_COLOR_GREEN << 
+        "[  PASSED  ] " << ShellFontStyle::SHELL_FONT_SPEC_NULL <<
         success_ << " test case(s)." <<
         std::endl;
 
     if (failed_ > 0) {
-        ss() << ShekkFontStyle::SHELL_FONT_COLOR_RED <<
-            "[  FAILED  ] " << ShekkFontStyle::SHELL_FONT_SPEC_NULL <<
+        ss() << ShellFontStyle::SHELL_FONT_COLOR_RED <<
+            "[  FAILED  ] " << ShellFontStyle::SHELL_FONT_SPEC_NULL <<
             failed_ << " test case(s), listed below:" <<
             std::endl;
 
         for(test_data_type::iterator iter = tests_.begin(); iter != tests_.end(); ++ iter) {
             for (test_type::iterator iter2 = iter->second.begin(); iter2 != iter->second.end(); ++ iter2){
                 if (iter2->second->failed_ > 0) {
-                    ss() << ShekkFontStyle::SHELL_FONT_COLOR_RED <<
-                        "[  FAILED  ] " << ShekkFontStyle::SHELL_FONT_SPEC_NULL <<
+                    ss() << ShellFontStyle::SHELL_FONT_COLOR_RED <<
+                        "[  FAILED  ] " << ShellFontStyle::SHELL_FONT_SPEC_NULL <<
                         iter->first << "." << iter2->first <<
                         std::endl;
                 }
