@@ -64,7 +64,12 @@ namespace util {
             inline time_t getLogTime() const { return log_time_cache_sec_; }
             inline const tm* getLogTm() const { return log_time_cache_sec_p_; }
 
-            void log(level_t::type level_id, const char* level, const char* file_path, uint32_t line_number, const char* func_name, const char* fnt, ...);
+            void log(level_t::type level_id, const char* level, const char* file_path, uint32_t line_number, const char* func_name, const char* fmt, ...)
+// 格式检查
+#if (defined(__clang__) && __clang_major__ >= 3) || (defined(__GNUC__) && __GNUC__ >= 4)
+                __attribute__ ((format (printf, 6, 7)))
+#endif
+            ;
 
             // 一般日志级别检查
             inline bool check(level_t::type level) {
