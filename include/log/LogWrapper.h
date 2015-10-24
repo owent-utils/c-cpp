@@ -65,9 +65,9 @@ namespace util {
             inline const tm* getLogTm() const { return log_time_cache_sec_p_; }
 
             void log(level_t::type level_id, const char* level, const char* file_path, uint32_t line_number, const char* func_name, const char* fmt, ...)
-// 格式检查
+// 格式检查(成员函数有个隐含的this参数)
 #if (defined(__clang__) && __clang_major__ >= 3) || (defined(__GNUC__) && __GNUC__ >= 4)
-                __attribute__ ((format (printf, 6, 7)))
+                __attribute__ ((format (printf, 7, 8)))
 #endif
             ;
 
