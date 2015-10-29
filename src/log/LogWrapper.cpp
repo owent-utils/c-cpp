@@ -48,7 +48,7 @@ namespace util {
         }
 
         void LogWrapper::log(level_t::type level_id, const char* level, const char* file_path, uint32_t line_number,
-                             const char* func_name, const char* fnt, ...) {
+                             const char* func_name, const char* fmt, ...) {
             if (auto_update_time_ && !enable_print_time_.empty()) {
                 update();
             }
@@ -86,9 +86,9 @@ namespace util {
 
 
                 va_list va_args;
-                va_start(va_args, fnt);
+                va_start(va_args, fmt);
 
-                start_index += vsnprintf(&log_buffer[start_index], sizeof(log_buffer) - start_index, fnt, va_args);
+                start_index += vsnprintf(&log_buffer[start_index], sizeof(log_buffer) - start_index, fmt, va_args);
 
                 va_end(va_args);
 
