@@ -358,7 +358,7 @@ namespace util {
                     list_->owner_ = this;
                 }
 
-                list_type::wrapper obj_wrapper;
+                typename list_type::wrapper obj_wrapper;
                 if (NULL == obj) {
                     return false;
                 }
@@ -392,7 +392,7 @@ namespace util {
                 }
 
                 // 拉取node, FILO
-                list_type::wrapper obj_wrapper = iter->second->cache_.front();
+                typename list_type::wrapper obj_wrapper = iter->second->cache_.front();
                 iter->second->cache_.pop_front();
 
                 TAction act;
