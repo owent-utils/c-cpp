@@ -132,7 +132,7 @@ namespace util {
             }
 
             if (opened_file_ && NULL != (*opened_file_) && file_size < max_file_size_) {
-                time_t now = LogWrapper::Instance()->getLogTime();
+                time_t now = LogWrapper::getLogTime();
                 time_t cp = now >= last_check_point_ ? now - last_check_point_ : last_check_point_ - now;
 
                 if (cp < check_interval_) {

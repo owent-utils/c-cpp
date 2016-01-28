@@ -7,6 +7,8 @@ namespace util {
     namespace log {
 
         bool LogWrapper::destroyed_ = false;
+        time_t LogWrapper::log_time_cache_sec_ = 0;
+        tm* LogWrapper::log_time_cache_sec_p_;
 
         LogWrapper::LogWrapper() :
             log_level_(level_t::LOG_LW_DISABLED) {

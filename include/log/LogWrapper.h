@@ -59,10 +59,10 @@ namespace util {
             // 初始化
             int32_t init(level_t::type level = level_t::LOG_LW_DEBUG);
 
-            void update();
+            static void update();
 
-            inline time_t getLogTime() const { return log_time_cache_sec_; }
-            inline const tm* getLogTm() const { return log_time_cache_sec_p_; }
+            static inline time_t getLogTime() const { return log_time_cache_sec_; }
+            static inline const tm* getLogTm() const { return log_time_cache_sec_p_; }
 
             void log(level_t::type level_id, const char* level, const char* file_path, uint32_t line_number, const char* func_name, 
 #ifdef _MSC_VER
@@ -129,8 +129,8 @@ namespace util {
         private:
             level_t::type log_level_;
             bool auto_update_time_;
-            time_t log_time_cache_sec_;
-            tm* log_time_cache_sec_p_;
+            static time_t log_time_cache_sec_;
+            static tm* log_time_cache_sec_p_;
             std::list<log_router_t> log_handlers_;
 
             bool enable_print_file_location_;
