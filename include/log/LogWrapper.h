@@ -61,8 +61,8 @@ namespace util {
 
             static void update();
 
-            static inline time_t getLogTime() const { return log_time_cache_sec_; }
-            static inline const tm* getLogTm() const { return log_time_cache_sec_p_; }
+            static inline time_t getLogTime() { return log_time_cache_sec_; }
+            static inline const tm* getLogTm() { return log_time_cache_sec_p_; }
 
             void log(level_t::type level_id, const char* level, const char* file_path, uint32_t line_number, const char* func_name, 
 #ifdef _MSC_VER
