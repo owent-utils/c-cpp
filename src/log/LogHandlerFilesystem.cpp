@@ -161,7 +161,10 @@ namespace util {
             real_path = get_log_file();
 
             FILE* clear_fd = fopen(real_path.c_str(), "w");
-            fclose(clear_fd);
+            if (NULL != clear_fd) {
+                fclose(clear_fd);
+            }
+
             *opened_file_ = fopen(real_path.c_str(), "a");
             if (NULL == *opened_file_) {
                 std::cerr << "[LOG INIT.ERR] open log file " << real_path << " failed." << std::endl;
