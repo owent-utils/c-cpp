@@ -557,7 +557,7 @@ namespace util {
                 check_pushed_.erase(obj_wrapper.object);
 #endif
 
-                if (iter->second.empty()) {
+                if (iter->second->empty()) {
                     data_.erase(iter);
                 }
 
