@@ -584,7 +584,7 @@ namespace util {
                     return true;
                 }
 
-                for (typename cat_map_type::iterator iter = data_.begin(); iter != data_.end(); ++iter) {
+                for (typename cat_map_type::const_iterator iter = data_.begin(); iter != data_.end(); ++iter) {
                     if (iter->second && !iter->second->empty()) {
                         return false;
                     }
@@ -596,7 +596,7 @@ namespace util {
             // high cost, do not use it frequently 
             size_t size() const {
                 size_t ret = 0;
-                for (typename cat_map_type::iterator iter = data_.begin(); iter != data_.end(); ++iter) {
+                for (typename cat_map_type::const_iterator iter = data_.begin(); iter != data_.end(); ++iter) {
                     if (iter->second) {
                         ret += iter->second->size();
                     }
