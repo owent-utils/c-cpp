@@ -421,8 +421,8 @@ namespace util {
                     owner_->check_pushed_.erase(obj.object);
 #endif
 
-                    // NOTICE, because it's iterator may in for - loop
-                    owner_->data_.erase(id_);
+                    // NOTICE, it's iterator may be used in for - loop now, can not erase it
+                    // owner_->data_.erase(id_);
                     return true;
                 }
 
@@ -580,7 +580,17 @@ namespace util {
             }
 
             bool empty() const {
-                return data_.empty();
+                if (data_.empty()) {
+                    return true;
+                }
+
+                for (typename cat_map_type::iterator iter = data_.begin(); iter != data_.end(); ++iter) {
+                    if (iter->second && !iter->second->empty()) {
+                        return false;
+                    }
+                }
+
+                return true;
             }
 
             // high cost, do not use it frequently 
