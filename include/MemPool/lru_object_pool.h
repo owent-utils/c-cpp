@@ -421,6 +421,7 @@ namespace util {
                     owner_->check_pushed_.erase(obj.object);
 #endif
 
+                    // NOTICE, because it's iterator may in for - loop
                     owner_->data_.erase(id_);
                     return true;
                 }
@@ -449,9 +450,10 @@ namespace util {
             virtual ~lru_pool() {
                 set_manager(NULL);
 
-                for (typename cat_map_type::iterator iter = data_.begin(); iter != data_.end(); ++iter) {
-                    if (iter->second) {
-                        while (iter->second->gc());
+                for (typename cat_map_type::iterator iter = data_.begin(); iter != data_.end();) {
+                    typename cat_map_type::iterator checked_it = iter++;
+                    if (checked_it->second) {
+                        while (checked_it->second->gc());
                     }
                 }
                 data_.clear();
@@ -565,10 +567,11 @@ namespace util {
             }
 
             void clear() {
-                for (typename cat_map_type::iterator iter = data_.begin(); iter != data_.end(); ++iter) {
-                    if (iter->second) {
-                        while (!iter->second->empty()) {
-                            iter->second->gc();
+                for (typename cat_map_type::iterator iter = data_.begin(); iter != data_.end();) {
+                    typename cat_map_type::iterator checked_it = iter++;
+                    if (checked_it->second) {
+                        while (!checked_it->second->empty()) {
+                            checked_it->second->gc();
                         }
                     }
                 }
