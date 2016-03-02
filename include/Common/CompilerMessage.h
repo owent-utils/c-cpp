@@ -4,7 +4,7 @@
  * Licensed under the MIT licenses.
  *
  * @version 1.0
- * @author OWenT
+ * @author owent
  * @date 2014.12.15
  *
  * @history
@@ -77,5 +77,7 @@
 
 
 #endif
+
+#define COMPILER_UNUSED(x) ((void)(x))  /* to avoid warnings */
 
 #endif /* _UTIL_COMMON_COMPILER_MESSAGE_H_ */

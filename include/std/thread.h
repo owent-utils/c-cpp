@@ -28,7 +28,9 @@
  */
 // IOS 不支持tls
 #if defined(__APPLE__)
-    #if __dest_os != __mac_os_x
+    #include <TargetConditionals.h>
+
+    #if TARGET_OS_IPHONE || TARGET_OS_EMBEDDED || TARGET_IPHONE_SIMULATOR
         #define THREAD_TLS
     #endif
 #endif
@@ -41,23 +43,29 @@
 #if !defined(THREAD_TLS) && defined(__clang__)
     #if __has_feature(cxx_thread_local)
         #define THREAD_TLS thread_local
+        #define THREAD_TLS_ENABLED 1
     #elif __has_feature(c_thread_local) || __has_extension(c_thread_local)
         #define THREAD_TLS _Thread_local
+        #define THREAD_TLS_ENABLED 1
     #else
         #define THREAD_TLS __thread
+        #define THREAD_TLS_ENABLED 1
     #endif
 #endif
 
 #if !defined(THREAD_TLS) && defined(__cplusplus) && __cplusplus >= 201103L
     #define THREAD_TLS thread_local
+    #define THREAD_TLS_ENABLED 1
 #endif
 
 // VC 2003
 #if !defined(THREAD_TLS)
     #if defined(_MSC_VER) && (_MSC_VER >= 1300)
         #define THREAD_TLS __declspec( thread )
+        #define THREAD_TLS_ENABLED 1
     #else
         #define THREAD_TLS __thread
+        #define THREAD_TLS_ENABLED 1
     #endif
 #endif
 
