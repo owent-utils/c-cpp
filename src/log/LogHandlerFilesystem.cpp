@@ -202,6 +202,9 @@ namespace util {
                         if (FUNC_MKDIR(real_path.c_str())) {
                             std::cerr << "[LOG INIT.ERR] create directory " << real_path << " failed." << std::endl;
                             return real_path;
+                        } else {
+                            // 只要换目录，一定从0重新开始
+                            open_file_index_ = 0;
                         }
                     }
                 }
