@@ -70,7 +70,7 @@ namespace util {
 
             std::shared_ptr<FILE*> open_log_file();
 
-            std::string get_log_file() const;
+            std::string get_log_file();
 
             static const tm* get_tm();
 

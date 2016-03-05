@@ -175,7 +175,7 @@ namespace util {
             return opened_file_;
         }
 
-        std::string LogHandlerFilesystem::get_log_file() const {
+        std::string LogHandlerFilesystem::get_log_file() {
             std::string real_path;
 
         #ifndef MAX_PATH
